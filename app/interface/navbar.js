@@ -35,7 +35,7 @@ export default function NavBar() {
   const navItems = [
     { href: `/mainpage?userId=${userId}`, icon: Home, label: 'Home' },
     { href: `/mainpage/profile/parent?userId=${userId}`, icon: User, label: 'Profile' },
-    { href: `/mainpage/activity?userId=${userId}`, icon: Sticker, label: 'Activity' },
+    { href: `/mainpage/activityList?userId=${userId}`, icon: Sticker, label: 'Activity' },
     { href: `/mainpage/setting?userId=${userId}`, icon: Settings, label: 'Settings' },
   ];
 

@@ -12,19 +12,19 @@ import BabyGirl from '@/public/asset/avatar/babygirl.png'
 import BabyBoy from '@/public/asset/avatar/babyboy.png'
 import { routeDB } from '@/app/firebase/api/route';
 
-export default function ChildProfile({ data }) {
+export default function ChildProfile() {
   const searchParams = useSearchParams()
   const userId = searchParams.get('userId')
   const [childData, setChildData] = useState({
     name: "", 
     age: "", 
-    selectedAvatar: null
+    avatar: null
   });
   const [error, setError] = useState('');
   const [isClient, setIsClient] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [childCount, setChildCount] = useState(0);
 
-  const { createChild } = routeDB();
   const router = useRouter();
   // Avatar options
   const avatarOptions = [
@@ -36,13 +36,12 @@ export default function ChildProfile({ data }) {
     { id: 'baby-boy', src: BabyBoy, alt: 'Baby Boy' }
   ];
 
-  // Debug logging
-  useEffect(() => {
-    console.log('User Data received:', data);
-  }, [data]);
-
   useEffect(() => {
     setIsClient(true);
+
+    //check existing children count from local storage
+    const exixtingChildren = JSON.parse(localStorage.getItem('childrenData') || '[]');
+    setChildCount(exixtingChildren.length);
   }, []);
 
   const handleAddChildProfile = async (e) => {
@@ -51,20 +50,34 @@ export default function ChildProfile({ data }) {
     setIsSubmitting(true);
 
     // Validate inputs
-    if (!childData) {
+    if (!childData.name || !childData.age || !childData.avatar) {
       setError('Please fill out all required fields and select an avatar');
+      setIsSubmitting(false);
       return;
     }
 
     try {
-      await createChild(data.uid, {
+      //get existing children from local storage
+      const existingChildren = JSON.parse(localStorage.getItem('childrenData') || '[]');
+
+      if(existingChildren.length >= 2) {
+        setError('Maximum child profile is 2');
+        setIsSubmitting(false);
+        return;
+      }
+
+      //create new child profile
+      const newChild = {
+        id: childCount + 1,
         name: childData.name,
         age: childData.age,
-        imageUrl: childData.avatar.src,
-        avatarAlt: childData.avatar.alt, 
-        createdAt: new Date(),
-      });
+        avatar: childData.avatar
+      };
 
+      const  updatedChildren = [...existingChildren, newChild];
+
+      //SAVE T
+      localStorage.setItem('childrenData', JSON.stringify(updatedChildren));
       console.log(childData);
       alert('Successfully Create Child Profile!');
       router.push(`/mainpage?userId=${userId}`);

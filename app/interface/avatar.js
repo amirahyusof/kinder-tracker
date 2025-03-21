@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Plus } from 'lucide-react';
   
 export default function AvatarChild({childData}) {
+  //save child data to local storage
   const searchParams = useSearchParams()
   const userId = searchParams.get('userId')
   // Debug logging

@@ -1,9 +1,8 @@
 "use client"
 
-import { Check, Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
-import { useAuth } from '../firebase/hook';
 import { routeDB } from '../firebase/api/route';
 
 export default function ListActivity({ activityData, setActivityData}) {
@@ -79,6 +78,7 @@ export default function ListActivity({ activityData, setActivityData}) {
                 >
                   <Pencil className="h-4 w-4" />
                 </button>
+
                 <button
                   type='button'
                   onClick={() => handleDeleteTask(activity.id)}
@@ -89,6 +89,7 @@ export default function ListActivity({ activityData, setActivityData}) {
                 >
                   {deleteTaskId === activity.id ? '...' : <Trash2 className="h-4 w-4" />}
                 </button>
+                
               </div>
             </div>
           </div>

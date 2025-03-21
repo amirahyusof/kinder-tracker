@@ -9,7 +9,7 @@ export default function Page() {
     <main className="hero bg-[#FFF9CA] h-screen">
       <div className="hero-content flex-col">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4 text-[#FFB4B4]">Parent Tracker</h1>
+          <h1 className="text-4xl font-bold mb-4 text-[#FFB4B4]">Child Activity Tracker</h1>
           <Image
           src={MainImage}
           width={350}
@@ -21,10 +21,10 @@ export default function Page() {
           />
         </div>
 
-        <div className="mt-4 w-full max-w-sm">
-          <Link href="/signup">
-            <button className="btn border-white w-full bg-[#FF9494] hover:bg-[#FFD1D1] text-black">
-              Log In
+        <div className="mt-4 mx-auto justify-center max-w-sm">
+          <Link href="/mainpage">
+            <button className="w-56 btn border-white  bg-[#FF9494] hover:bg-[#FFD1D1] text-black text-xl font-bold">
+              Login
             </button>
           </Link>
         </div>

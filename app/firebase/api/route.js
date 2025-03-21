@@ -85,6 +85,17 @@ export const routeDB = () => {
     }
   };
 
+  const deleteUserDocument = async (userId) => {
+    try {
+      const docRef = doc( db,'users', userId);
+      await deleteDoc(docRef);
+      return true;
+    } catch (error){
+      console.error("Error deleting user:", error);
+      throw error;
+    }
+  }
+
   const updateUserDocument = async (userId, updateData) => {
     try {
       const docRef = doc(db, 'users', userId);
@@ -166,6 +177,17 @@ export const routeDB = () => {
       return [];
     }
   };
+
+  const deleteChildData = async (userId, childId) => {
+    try {
+      const childRef = doc( db,'users', userId, 'children', childId);
+      await deleteDoc(childRef);
+      return true;
+    } catch (error){
+      console.error("Error deleting child data:", error);
+      throw error;
+    }
+  }
 
   const getChildDataById = async (userId, childId) => {
     try {
@@ -321,10 +343,12 @@ export const routeDB = () => {
     createUserDocument, 
     getUserDocument, 
     updateUserDocument,
+    deleteUserDocument,
     checkIfUserExists,
     createChild,
     getChildData, 
     updateChildData,
+    deleteChildData,
     getChildDataById,
     createActivity,
     getActivity,

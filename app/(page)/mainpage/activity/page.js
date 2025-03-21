@@ -32,7 +32,7 @@ export default function ActivityPage() {
 
           setError(null);
         } catch(error){
-          console.error('Deatiled error fetching child/activities:', error);
+          console.error('Detailed error fetching child/activities:', error);
           setError("Failed to fetch child or activities");
         }
       };
@@ -49,7 +49,7 @@ export default function ActivityPage() {
   }
 
   return (
-    <section className='p-6 h-screen bg-[#FFF9CA]'>
+    <section className='p-6 min-h-screen bg-[#FFF9CA]'>
       <div className='flex items-center justify-between mb-4'>
         <div className='flex items-center'>
           {childDetails && (
