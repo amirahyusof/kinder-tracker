@@ -24,7 +24,7 @@ export default function Page() {
         <div className="mt-4 mx-auto justify-center max-w-sm">
           <Link href="/mainpage">
             <button className="w-56 btn border-white  bg-[#FF9494] hover:bg-[#FFD1D1] text-black text-xl font-bold">
-              Login
+              Start
             </button>
           </Link>
         </div>
