@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-export default function ActivityList() {
+export default function AllChildActivities() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const userId = searchParams.get('userId');
