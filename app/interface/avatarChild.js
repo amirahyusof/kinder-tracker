@@ -37,7 +37,7 @@ export default function AvatarChild() {
           childData.map((child) => (
             <div key={child.id} className='avatar flex flex-col cursor-pointer '>
               <div className='w-20 h-20 space-x-2 rounded-full border-2 overflow-hidden'>
-                <Link href={`/mainpage/child-data/childPersonalActivities?childId=${child.id}`}>
+                <Link href={`/mainpage/child/respectiveActivity?childId=${child.id}`}>
                   <Image
                     src={child.avatar?.src || "/placeholder.png"} // Fallback image
                     width={100}
