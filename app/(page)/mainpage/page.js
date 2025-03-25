@@ -7,16 +7,17 @@ import AvatarChild from "@/app/interface/avatarChild";
 export default function Dashboard(){
   const [childData, setChildData] = useState([]);
   const [activityUndoneData, setActivityUndoneData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     //get child profile from local storage
-    const data = JSON.parse(localStorage.getItem('childrenData')) || '[]';
+    const data = JSON.parse(localStorage.getItem('childrenData') || '[]');
     setChildData(data);
   }, []);
 
-  if(loading) {
-    return <div>Loading...</div>;
-  }
+  // if(loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <section className="bg-[#FFF9CA]">

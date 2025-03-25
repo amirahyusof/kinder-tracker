@@ -10,7 +10,7 @@ import GirlTeenager from '@/public/asset/avatar/teenagergirl.png'
 import BoyTeenager from '@/public/asset/avatar/teenagerboy.png'
 import BabyGirl from '@/public/asset/avatar/babygirl.png'
 import BabyBoy from '@/public/asset/avatar/babyboy.png'
-import { routeDB } from '@/app/firebase/api/route';
+
 
 export default function ChildProfile() {
   const [childData, setChildData] = useState({
@@ -52,9 +52,9 @@ export default function ChildProfile() {
     }
 
     //get existing children from local storage
-    const existingChildren = JSON.parse(localStorage.getItem('childrenData')) || '[]';
+    const existingChildren = JSON.parse(localStorage.getItem('childrenData') || '[]');
 
-    if(existingChildren.length >= 2) {
+    if(existingChildren.length > 2) {
       setError('Maximum child profile is 2');
       setIsSubmitting(false);
       return;
@@ -157,11 +157,13 @@ export default function ChildProfile() {
                 { isSubmitting ? 'Adding...' : 'Add Child'}
               </button>
 
-              <Link href={`/mainpage?userId=${userId}`}>
-                <button type="button" className='btn btn-md btn-neutral text-white'>
-                  Cancel
-                </button>
-              </Link>
+              <button>
+                <Link href={"/mainpage"}>
+                  <button type="button" className='btn btn-md btn-neutral text-white'>
+                    Cancel
+                  </button>
+                </Link>
+              </button>
             </div>
           </form>
         </div>

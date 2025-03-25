@@ -1,18 +1,17 @@
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation';
 import { Plus } from 'lucide-react';
   
-export default function AvatarChild({childData}) {
+export default function AvatarChild() {
   //save child data to local storage
   const [childData, setChildData] = useState([]);
 
   useEffect(() => {
     //Load child profiles from local storage
-    const storageData = JSON.parse(localStorage.getItem('childrenData')) || [];
+    const storageData = JSON.parse(localStorage.getItem('childrenData') || []);
     setChildData(storageData);
-    console.log('Child Data in AvatarChild:', childData);
+    console.log('Child Data in AvatarChild:', storageData);
   }, [])
 
   return (
@@ -39,10 +38,10 @@ export default function AvatarChild({childData}) {
             <div className='avatar w-20 h-20 space-x-2 rounded-full border-2 overflow-hidden'>
               <Link href={`/mainpage/listActivity?childId=${child.id}`}>
                 <Image
-                  src={child.imageUrl}
+                  src={child.src}
                   width={100}
                   height={100}
-                  alt={child.avatarAlt || "Child's avatar"}
+                  alt={child.alt || "Child's avatar"}
                   className='w-full h-full object-cover'
                 />
               </Link>
