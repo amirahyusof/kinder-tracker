@@ -35,7 +35,7 @@ export default function ChildProfile() {
 
   useEffect(() => {
     //check existing children count from local storage
-    const existingChildren = JSON.parse(localStorage.getItem('childrenData')) || '[]';
+    const existingChildren = JSON.parse(localStorage.getItem('childrenData') || '[]');
     setChildCount(existingChildren.length);
   }, []);
 
@@ -78,7 +78,7 @@ export default function ChildProfile() {
 
   
   return (
-    <section className="w-full bg-[] p-8">
+    <section className="w-full bg-[] p-8 mb-20">
       <div className="flex flex-col">
         <div className="mt-2">
           <h1 className="text-xl md:text-2xl font-bold">Add Child Profile</h1>
