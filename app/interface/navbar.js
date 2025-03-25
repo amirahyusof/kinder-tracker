@@ -24,7 +24,7 @@ export default function NavBar() {
 
   return (
     <>
-      {/* Desktop Sidebar */}
+      {/* Navigation bar bottom */}
         <div className="fixed bottom-0 left-0 right-0 flex flex-row justify-center mx-auto w-11/12 bg-[#FFB4B4] text-white">
           <div className="p-4">
             <nav>
