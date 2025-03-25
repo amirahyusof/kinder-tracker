@@ -9,7 +9,7 @@ export default function AvatarChild() {
 
   useEffect(() => {
     //Load child profiles from local storage
-    const storageData = JSON.parse(localStorage.getItem('childrenData') || []);
+    const storageData = JSON.parse(localStorage.getItem('childrenData') || '[]');
     setChildData(storageData);
     console.log('Child Data in AvatarChild:', storageData);
   }, [])
@@ -33,22 +33,26 @@ export default function AvatarChild() {
         </div>
 
         {/* Render Child Avatars */}
-        {childData.map((child) => (
-          <div key={child.id} className='avatar flex flex-col cursor-pointer '>
-            <div className='avatar w-20 h-20 space-x-2 rounded-full border-2 overflow-hidden'>
-              <Link href={`/mainpage/listActivity?childId=${child.id}`}>
-                <Image
-                  src={child.src}
-                  width={100}
-                  height={100}
-                  alt={child.alt || "Child's avatar"}
-                  className='w-full h-full object-cover'
-                />
-              </Link>
+        {childData.length > 0 ? (
+          childData.map((child) => (
+            <div key={child.id} className='avatar flex flex-col cursor-pointer '>
+              <div className='w-20 h-20 space-x-2 rounded-full border-2 overflow-hidden'>
+                <Link href={`/mainpage/child-data/childPersonalActivities?childId=${child.id}`}>
+                  <Image
+                    src={child.avatar?.src || "/placeholder.png"} // Fallback image
+                    width={100}
+                    height={100}
+                    alt={child.avatar?.alt || "Child's avatar"}
+                    className='w-full h-full object-cover'
+                  />
+                </Link>
+              </div>
+              <p className='text-sm text-center mt-2 text-gray-400'>{child.name || "Unknown"}</p>
             </div>
-            <p className='text-sm text-center mt-2 text-gray-400'>{child.name}</p>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className='text-gray-500 mt-4'>No child profiles found.</p>
+        )}
       </div>
     </section>
   )
