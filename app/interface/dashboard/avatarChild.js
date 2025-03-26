@@ -15,7 +15,7 @@ export default function AvatarChild() {
   }, [])
 
   return (
-    <section className='p-6 w-full'>
+    <section className='p-4 w-full'>
       <h1 className='text-xl font-bold'>Your Children</h1>
       <div className='flex mt-4 gap-2 overflow-x-auto'>
         {/* Add Profile Button */}
