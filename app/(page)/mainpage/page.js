@@ -27,7 +27,7 @@ export default function Dashboard(){
   if (loading) return <div className="text-center p-6">Loading...</div>;
 
   return (
-    <section className="bg-[#FFF9CA] mx-10">
+    <section className="bg-[#FFF9CA] md:mx-10">
       <AvatarChild childData={childData} />
       <ActivityCard 
         activityData={activityUndoneData} 
