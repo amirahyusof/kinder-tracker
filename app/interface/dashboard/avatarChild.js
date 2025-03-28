@@ -20,7 +20,7 @@ export default function AvatarChild() {
       <div className='flex mt-4 gap-2 overflow-x-auto'>
         {/* Add Profile Button */}
         <div className='avatar placeholder'>
-          <Link href={"/mainpage/child-data"}>
+          <Link href={"/mainpage/child"}>
             <div className='w-20 h-20 bg-[#FFB4B4] rounded-full flex items-center justify-center'>
               <span className='text-white'>
                 <Plus className='h-10 w-10' />
@@ -44,6 +44,7 @@ export default function AvatarChild() {
                     height={100}
                     alt={child.avatar?.alt || "Child's avatar"}
                     className='w-full h-full object-cover'
+                    priority
                   />
                 </Link>
               </div>
