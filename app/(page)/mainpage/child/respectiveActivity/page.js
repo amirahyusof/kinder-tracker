@@ -69,7 +69,7 @@ export default function ActivityRespectiveChild() {
                 />
               </div>
               <h1 className='text-xl'>
-                List Activities of <span className='font-semibold'>{child.name}</span>
+                List Activities for <span className='font-semibold'>{child.name}</span>
               </h1>
             </>
           ) : (
