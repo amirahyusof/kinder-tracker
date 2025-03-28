@@ -7,10 +7,9 @@ import Image from "next/image";
 export default function ActivityCard({ activityData, childData}){
   const router = useRouter();
 
-
   const handleEditTask = (childId, activityId) => {
     const parsedChildId = parseInt(childId);
-    router.push(`/mainpage/activities/edit?&childId=${childId}&activityId=${activityId}`);
+    router.push(`/mainpage/activities/edit?childId=${childId}&activityId=${activityId}`);
   };
 
   if(!activityData || !activityData.length === 0){
@@ -24,10 +23,10 @@ export default function ActivityCard({ activityData, childData}){
   return (
     <div className="p-4 w-full">
       <h2 className="text-xl font-bold mb-2">Undone Activities</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 lg:gap-6 mt-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 lg:gap-6 mt-2">
         { activityData.map((data) => {
           //find the corresponding child data
-          const child = childData.find((child) => child.id.toString() === data.id);
+          const child = childData.find((child) => child.id.toString() === data.childId);
 
         return (
           <div key={data.id} className="bg-[#FFB4B4] p-4  shadow rounded space-y-2">
@@ -44,22 +43,15 @@ export default function ActivityCard({ activityData, childData}){
                     Status: <span className="capitalize font-normal">{data.status}</span>
                   </p>
                   {/* Edit Button */}
-                  <div className="flex justify-center items-center">
-                    <button 
-                      onClick={() => handleEditTask(data.childId, data.id)}
-                      className="bg-[#FFD1D1] text-black px-3 py-1 border-2 rounded hover:bg-[#FF9494] transition text-sm"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </button>
+                  <div className="flex justify-end">
+                    <Pencil 
+                      className="h-4 w-4 text-white hover:text-[#FF9494] transition "  
+                      onClick={() => handleEditTask(data.childId, data.id)} 
+                    />
                   </div>
-
                 </div>
-                
-
-                
               </div>
               
-
               {/* display child's avatar and name */}
               { child ? (
                 <div className="flex flex-col items-center mt-2">
@@ -70,6 +62,7 @@ export default function ActivityCard({ activityData, childData}){
                       height={200}
                       alt={child.avatar?.alt || "Child's avatar"}
                       className="w-full h-full object-cover"
+                      priority
                     />
                   </div>
                   <h2 className=" text-white font-semibold">{child.name}</h2>
