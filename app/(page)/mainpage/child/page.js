@@ -4,12 +4,12 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import Image from 'next/image';
-import GirlKid from '@/public/asset/avatar/kidgirl.png';
-import BoyKid from '@/public/asset/avatar/kidboy.png';
-import GirlTeenager from '@/public/asset/avatar/teenagergirl.png'
-import BoyTeenager from '@/public/asset/avatar/teenagerboy.png'
-import BabyGirl from '@/public/asset/avatar/babygirl.png'
-import BabyBoy from '@/public/asset/avatar/babyboy.png'
+import GirlKid from '@/public/asset/kidgirl.webp';
+import BoyKid from '@/public/asset/kidboy.webp';
+import GirlTeenager from '@/public/asset/teenagergirl.webp'
+import BoyTeenager from '@/public/asset/teenagerboy.webp'
+import BabyGirl from '@/public/asset/babygirl.webp'
+import BabyBoy from '@/public/asset/babyboy.webp'
 
 
 export default function CreateChildProfile() {
@@ -25,12 +25,12 @@ export default function CreateChildProfile() {
 
   // Avatar options
   const avatarOptions = [
-    { id: 'girl-kid', src: GirlKid, alt: 'Girl Kid' },
-    { id: 'boy-kid', src: BoyKid, alt: 'Boy Kid' },
-    { id: 'girl-teen', src: GirlTeenager, alt: 'Girl Teenager' },
-    { id: 'boy-teen', src: BoyTeenager, alt: 'Boy Teenager' },
-    { id: 'baby-girl', src: BabyGirl, alt: 'Baby Girl' },
-    { id: 'baby-boy', src: BabyBoy, alt: 'Baby Boy' }
+    { id: 'kidgirl', src: GirlKid, alt: 'Girl Kid' },
+    { id: 'kidboy', src: BoyKid, alt: 'Boy Kid' },
+    { id: 'teenagergirl', src: GirlTeenager, alt: 'Girl Teenager' },
+    { id: 'teenagerboy', src: BoyTeenager, alt: 'Boy Teenager' },
+    { id: 'babygirl', src: BabyGirl, alt: 'Baby Girl' },
+    { id: 'babyboy', src: BabyBoy, alt: 'Baby Boy' }
   ];
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function CreateChildProfile() {
     //get existing children from local storage
     const existingChildren = JSON.parse(localStorage.getItem('childrenData') || '[]');
 
-    if(existingChildren.length > 2) {
+    if(existingChildren.length <= 2) {
       setError('Maximum child profile is 2');
       setIsSubmitting(false);
       return;
@@ -65,7 +65,7 @@ export default function CreateChildProfile() {
       id: Date.now(),
       name: childData.name,
       age: childData.age,
-      avatar: childData.avatar
+      avatar: {id:childData.avatar.id, src:`/asset/${childData.avatar.id}.png`, alt:childData.avatar.alt}
     };
 
     const  updatedChildren = [...existingChildren, newChild];
