@@ -34,7 +34,8 @@ export default function CreateActivity() {
 
     //create activity
     const newActivity = {
-      id: childId,
+      id: Date.now(),
+      childId: childId,
       activity: activityData.activity,
       description: activityData.description,
       dueDate: activityData.dueDate,
@@ -113,7 +114,7 @@ export default function CreateActivity() {
         <div className="flex justify-end mt-6 space-x-2 md:space-x-4">
           <button
             type="submit"
-            className={`btn border-green w-[150px] bg-green-400 text-white hover:bg-green-600
+            className={`btn rounded-3xl border-green w-[100px] bg-green-400 text-white hover:bg-green-600
                ${isSubmitting ? 'bg-green-400 cursor-not-allowed`' : 'hover:bg-green-400'}`}
             disabled={isSubmitting}
           >
@@ -123,7 +124,7 @@ export default function CreateActivity() {
           <button
             onClick={() => router.push(`/mainpage/child/respectiveActivity?childId=${childId}`)}
             type="button" 
-            className='btn border-white bg-gray-400 text-white w-[150px]'
+            className='btn rounded-3xl border-white bg-red-600 hover:bg-red-400 text-white w-[100px]'
           >
             Cancel
           </button>
