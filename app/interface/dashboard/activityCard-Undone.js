@@ -22,7 +22,7 @@ export default function ActivityCard({ activityData, childData}){
 
   return (
     <div className="p-4 w-full">
-      <h2 className="text-xl font-bold mb-2">Undone Activities</h2>
+      <h2 className="text-xl font-bold mb-2">Activities</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 lg:gap-6 mt-2">
         { activityData.map((data) => {
           //find the corresponding child data
