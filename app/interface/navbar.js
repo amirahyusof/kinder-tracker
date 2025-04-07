@@ -1,23 +1,20 @@
 "use client"
 
-import { Home, User, Candy, Sticker } from 'lucide-react'
-import Link from 'next/link'
-import React, { useState } from 'react'
-import { useAuth } from '../firebase/hook';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { Home, User, Candy, Sticker } from 'lucide-react';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function NavBar() {
   const [error, setError] = useState('');
-  const searchParams = useSearchParams();
-  
-  const { logout } = useAuth();
+
   const router = useRouter();
 
 
   const navItems = [
     { href: "/mainpage", icon: Home, label: 'Home' },
     { href: "/mainpage/listActivity", icon: Sticker, label: 'Activity' },
-    { href: "/mainpage/child-data", icon: Candy, label: 'Kids' },
+    { href: "/mainpage/childProfile", icon: Candy, label: 'Kids' },
     { href: "/mainpage/profile", icon: User, label: 'Profile' },
     
   ];
