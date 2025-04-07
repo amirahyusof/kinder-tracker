@@ -1,39 +1,39 @@
 "use client"
 
+import React, { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
-import { routeDB } from '../firebase/api/route';
 
-export default function ListActivity({ activityData, setActivityData}) {
+
+
+export default function ListActivity({ activityData, setActivityData, childId}) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const childId = searchParams.get('childId');
-  const { deleteActivity } = routeDB();
+  // const searchParams = useSearchParams();
+  // const childId = searchParams.get('childId');
   const [deleteTaskId, setDeletingTaskId] = useState(null);
 
-  const handleEditTask = (userId, childId, activityId) => {
-    router.push(`/mainpage/activity/edit?userId=${userId}&childId=${childId}&activityId=${activityId}`);
+  const handleEditTask = (childId, activityId) => {
+    const parsedChildId = parseInt(childId);
+    router.push(`/mainpage/activities/edit?childId=${childId}&activityId=${activityId}`);
   };
 
-  const handleDeleteTask = async (activityId) => {
-    const confirmDelete = window.confirm('Are you sure want to delete this task?');
+  const handleDeleteTask = (activityId) => {
+    const confirmDelete = window.confirm('Are you sure want to delete this activity?');
 
     if (confirmDelete) {
-      try {
-        setDeletingTaskId(activityId);
-        await deleteActivity(userId, childId, activityId);
-        setActivityData((prevData) => prevData.filter((activity) => activity.id !== activityId));
-        alert('Activity deleted successfully!');
-        router.refresh();
+      setDeletingTaskId(activityId);
 
-      } catch (error) {
-        console.error('Failed to delete activity:', error);
-        alert('Failed to delete activity');
-
-      } finally {
-        setDeletingTaskId(null);
-      }
+      //get acyivity data from localStorage
+      const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
+      const activityToDelete = storageActivity.filter(activity => activity.id !== activityId);
+      localStorage.setItem('activityData', JSON.stringify(activityToDelete));
+      
+      
+      //update the UI
+      setActivityData(activityToDelete.filter(activity => activity.childId === childId));
+      setDeletingTaskId(null);
+      alert('Activity deleted successfully!');
+      router.refresh();
     }
   };
 
@@ -44,11 +44,11 @@ export default function ListActivity({ activityData, setActivityData}) {
     <section className='mt-6 space-y-4'>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {uniqueActivities.map((activity, index) => (
-          <div key={`${activity.id}-${index}`} className='card border-2 border border-[#FFDEB4]'>
+          <div key={`${activity.id}-${index}`} className='card border-2  border-[#FFDEB4]'>
             <div className="card-body bg-white shadow-md rounded-2xl p-6 space-y-2">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-800 capitalize">
-                  Title: <span className='capitalize'>{activity.name}</span>
+                  Title: <span className='capitalize'>{activity.activity}</span>
                 </h3>
                 <span
                   className={`px-2 py-1 text-xs font-medium rounded ${
@@ -72,7 +72,7 @@ export default function ListActivity({ activityData, setActivityData}) {
               <div className='card-actions flex items-center justify-end space-x-2'>
                 <button
                   type='button'
-                  onClick={() => handleEditTask(userId, childId, activity.id)}
+                  onClick={() => handleEditTask(childId, activity.id)}
                   className="btn btn-xs flex items-center justify-center w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600"
                 >
                   <Pencil className="h-4 w-4" />

@@ -29,7 +29,7 @@ export default function ActivityRespectiveChild() {
 
       //Load child's activities from local storage
       const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
-      const filteredActivity = storageActivity.filter((activity) => activity.childId === parsedChildId);
+      const filteredActivity = storageActivity.filter((activity) => activity.childId === childId);
       setChildActivities(filteredActivity);
       console.log('Activity Data of this child:', storageActivity);
       
@@ -114,6 +114,7 @@ export default function ActivityRespectiveChild() {
           <ListActivity 
             activityData={childActivities}
             setActivityData = {setChildActivities}
+            childId={parseInt(childId)}
           />
         )}
       </div>
