@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { routeDB } from '@/app/firebase/api/route';
 import { CalendarIcon, PencilIcon } from "lucide-react";
 
 export default function CreateActivity() {
@@ -96,7 +95,7 @@ export default function CreateActivity() {
         {/* Get the due date */}
         <div className="form-control mb-4">
           <label htmlFor="date" className="label">
-            <span className='block text-gray-700 font-medium '>Due Date of Activity</span>
+            <span className='block text-gray-700 font-medium'>Date</span>
           </label>
           <div className='flex items-center border rounded-lg overflow-hidden'>
             <span className="p-2 bg-gray-200"><CalendarIcon size={18} /></span>
@@ -115,7 +114,7 @@ export default function CreateActivity() {
           <button
             type="submit"
             className={`btn rounded-3xl border-green w-[100px] bg-green-400 text-white hover:bg-green-600
-               ${isSubmitting ? 'bg-green-400 cursor-not-allowed`' : 'hover:bg-green-400'}`}
+               ${isSubmitting ? 'bg-green-400 cursor-not-allowed' : 'hover:bg-green-400'}`}
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Saving...' : 'Save'}
