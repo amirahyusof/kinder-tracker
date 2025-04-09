@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ListActivity from '@/app/interface/ListActivity';
+import ListActivity from '@/app/interface/RespectiveChildActivity';
 import Image from 'next/image';
 
 export default function ActivityRespectiveChild() {
@@ -110,7 +110,7 @@ export default function ActivityRespectiveChild() {
             </p>
           </div>
           ) : (
-            //need to fixed
+            // Display the list of activities if available
           <ListActivity 
             activityData={childActivities}
             setActivityData = {setChildActivities}

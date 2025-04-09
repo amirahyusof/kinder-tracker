@@ -4,14 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ReactConfetti from 'react-confetti';
 import { PartyPopper } from 'lucide-react';
-import { routeDB } from '@/app/firebase/api/route';
 
 export default function EditActivityPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const childId = searchParams.get('childId');
   const activityId = searchParams.get('activityId');
-  const { getActivityById, updateActivity } = routeDB();
   const [updatedActivity, setUpdatedActivity] = useState({
     name: '',
     description: '',
@@ -40,7 +38,7 @@ export default function EditActivityPage() {
     };
 
     fetchTask();
-  }, [userId, childId, activityId]);
+  }, [childId, activityId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
