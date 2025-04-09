@@ -2,14 +2,12 @@
 
 import React, { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 
 
 export default function ListActivity({ activityData, setActivityData, childId}) {
   const router = useRouter();
-  // const searchParams = useSearchParams();
-  // const childId = searchParams.get('childId');
   const [deleteTaskId, setDeletingTaskId] = useState(null);
 
   const handleEditTask = (childId, activityId) => {
@@ -44,11 +42,11 @@ export default function ListActivity({ activityData, setActivityData, childId}) 
     <section className='mt-6 space-y-4'>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {uniqueActivities.map((activity, index) => (
-          <div key={`${activity.id}-${index}`} className='card border-2  border-[#FFDEB4]'>
-            <div className="card-body bg-white shadow-md rounded-2xl p-6 space-y-2">
+          <div key={`${activity.id}-${index}`} className="border-2 border-[#FFDEB4] rounded-2xl">
+            <div className=" bg-white shadow-md rounded-2xl px-2 py-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-800 capitalize">
-                  Title: <span className='capitalize'>{activity.activity}</span>
+                  Activity: <span className='capitalize'>{activity.activity}</span>
                 </h3>
                 <span
                   className={`px-2 py-1 text-xs font-medium rounded ${
