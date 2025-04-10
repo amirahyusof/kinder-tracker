@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 
 
-export default function ListActivity({ activityData, childData}) {
+export default function ListActivity({ activityData, setActivityData, childData}) {
   const router = useRouter();
   const [deleteTaskId, setDeletingTaskId] = useState(null);
 
