@@ -48,7 +48,7 @@ export default function ChildrenActivities() {
 
   return (
     <section className='p-6 min-h-screen bg-[#FFF9CA]'>
-      <div className='flex items-center justify-between mb-4'>
+      <div className='flex items-center justify-between'>
         <h1 className='text-xl'>
           List Activities of Children
         </h1>
@@ -58,17 +58,18 @@ export default function ChildrenActivities() {
       <div className='flex flex-col'>
         {/* Conditional rendering for tasks */}
         {(!childActivities || childActivities.length === 0) ? (
-          <div className="mt-8 text-left ml-10">
+          <div className="mt-8">
             <p className="text-gray-500">No tasks yet</p>
             <p className="text-sm text-gray-400">
               There are no list activity for children.
-              Please add activity on the child’s profile by clicking child's avatar on mainpage.
+              Please create activity on the child’s profile by clicking child's avatar on Home Page.
             </p>
           </div>
           ) : (
             // Display the list of activities if available
           <AllActivity 
             activityData={childActivities}
+            setActivityData={setChildActivities}
             childData={child}
           />
         )}
