@@ -25,14 +25,14 @@ export default function NavBar() {
         <div className="fixed bottom-0 left-0 right-0 flex flex-row justify-center mx-auto w-11/12 rounded-2xl bg-[#FFB4B4] text-white">
           <div className="p-4 mx-6 sm:mx-0">
             <nav>
-              <ul className="grid grid-cols-4 gap-24">
+              <ul className="grid grid-cols-4 gap-20 md:gap-24">
             {navItems.map((item, index) => (
               <li key={index}>
             <Link 
               href={item.href}
-              className="flex flex-col items-center hover:bg-[#FFDEB4] rounded-lg transition-colors"
+              className="flex flex-col items-center rounded-lg transition-colors"
             >
-              <item.icon size={40} />
+              <item.icon size={30} className='hover:bg-[#FFDEB4]/70 rounded-lg' />
               <span className="items-center">{item.label}</span>
             </Link>
               </li>
