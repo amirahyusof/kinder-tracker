@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ListActivity from '@/app/interface/RespectiveChildActivity';
+import ListActivity from '@/app/interface/activity/RespectiveChildActivity';
 import Image from 'next/image';
 
 export default function ActivityRespectiveChild() {
