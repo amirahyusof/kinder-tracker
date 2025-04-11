@@ -60,7 +60,7 @@ export default function CreateActivity() {
         {/* Get the activity name */}
         <div className="form-control mb-4">
           <label htmlFor="activity" className="label">
-            <span className="block text-gray-700 font-medium">Activity</span>
+            <span className="block text-gray-700 font-medium">🎗 Activity</span>
           </label>
           <div className='flex items-center border rounded-lg overflow-hidden'>
             <span className="p-2 bg-gray-200"><PencilIcon size={18} /></span>
@@ -79,7 +79,7 @@ export default function CreateActivity() {
         {/* Get the activity description */}
         <div className="form-control mb-4">
           <label htmlFor="activityDescription" className="label">
-            <span className="block text-gray-700 font-medium">Description</span>
+            <span className="block text-gray-700 font-medium">🧠 Description</span>
           </label>
           <textarea
             id="activityDescription"
@@ -95,7 +95,7 @@ export default function CreateActivity() {
         {/* Get the due date */}
         <div className="form-control mb-4">
           <label htmlFor="date" className="label">
-            <span className='block text-gray-700 font-medium'>Date</span>
+            <span className='block text-gray-700 font-medium'>⏰ Date</span>
           </label>
           <div className='flex items-center border rounded-lg overflow-hidden'>
             <span className="p-2 bg-gray-200"><CalendarIcon size={18} /></span>
