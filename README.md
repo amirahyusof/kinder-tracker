@@ -55,8 +55,9 @@ npm run dev
 
 Open http://localhost:3000 in your browser.
 
+---
 
-## Acknowledgements
+🙌 Acknowledgments
 
 Inspired by parents who want to gently guide children with routines and activity-based learning.
 Made with ❤️ using Next.js & TailwindCSS.
