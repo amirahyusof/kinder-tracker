@@ -6,25 +6,26 @@ import MainImage from "@/public/asset/front-page.jpeg"
 
 export default function Page() {
   return (
-    <main className="hero bg-[#FFF9CA] h-screen">
-      <div className="hero-content flex-col">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4 text-[#FFB4B4]">Child Activity Tracker</h1>
+    <main className="bg-[#FFF9CA] min-h-screen flex items-center justify-center px-4 w-full">
+      <div className="w-full rounded-3xl bg-white shadow-lg overflow-hidden">
+        <div className="w-full relative">
           <Image
-          src={MainImage}
-          width={350}
-          height={400}
-          loading="lazy"
-          placeholder="blur"
-          alt="Front Image"
-          className="w-auto h-auto object-contain"
+            src={MainImage}
+            sizes="fill"
+            loading="lazy"
+            placeholder="blur"
+            alt="Front Image" 
+            className="object-cover "
           />
         </div>
 
-        <div className="mt-4 mx-auto justify-center max-w-sm">
+        <div className="bg-[#FFF9CA]/70 px-6 py-8 text-center rounded-t-3xl -mt-10 relative z-10">
+          <h1 className="text-2xl font-bold mb-2 text-[#FFB4B4]">Child Activity Tracker</h1>
+          <p className="text-sm text-[#FFB4B4] mb-4">Let’s get started! Track and motivate your child’s daily progress.</p>
+
           <Link href="/mainpage">
-            <button className="w-56 btn border-white  bg-[#FF9494] hover:bg-[#FFD1D1] text-black text-xl font-bold">
-              Start
+            <button className="w-full py-3 rounded-full border-white  bg-[#FF9494] hover:bg-[#FFD1D1] text-white text-lg font-semibold transition-all">
+              Get Start
             </button>
           </Link>
         </div>
