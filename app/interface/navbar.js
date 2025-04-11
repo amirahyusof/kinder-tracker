@@ -14,7 +14,7 @@ export default function NavBar() {
   const navItems = [
     { href: "/mainpage", icon: Home, label: 'Home' },
     { href: "/mainpage/listActivity", icon: Sticker, label: 'Activity' },
-    { href: "/mainpage/childProfile", icon: Candy, label: 'Kids' },
+    { href: "/mainpage/listChildren", icon: Candy, label: 'Children' },
     { href: "/mainpage/profile", icon: User, label: 'Profile' },
     
   ];
