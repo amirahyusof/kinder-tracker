@@ -3,40 +3,39 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
-import Image from 'next/image';
-import GirlKid from '@/public/asset/kidgirl.webp';
-import BoyKid from '@/public/asset/kidboy.webp';
-import GirlTeenager from '@/public/asset/teenagergirl.webp'
-import BoyTeenager from '@/public/asset/teenagerboy.webp'
-import BabyGirl from '@/public/asset/babygirl.webp'
-import BabyBoy from '@/public/asset/babyboy.webp'
+
+
+const colorOptions = [
+  '#FFB4B4', '#FFD1B4', '#FFE0B4', '#D4FFB4', '#B4FFF9', '#D4B4FF'
+];
+
+function getInitialsName(name){
+  return name
+  .split(' ')
+  .map((word => word[0]))
+  .join("")
+  .toUpperCase();
+}
 
 
 export default function CreateChildProfile() {
   const [childData, setChildData] = useState({
     name: "", 
     age: "", 
-    avatar: null
+    color: colorOptions[0],
+    
   });
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [childCount, setChildCount] = useState(0);
+  const [isMaxReached, setIsMaxReached] = useState(false);
   const router = useRouter();
-
-  // Avatar options
-  const avatarOptions = [
-    { id: 'kidgirl', src: GirlKid, alt: 'Girl Kid' },
-    { id: 'kidboy', src: BoyKid, alt: 'Boy Kid' },
-    { id: 'teenagergirl', src: GirlTeenager, alt: 'Girl Teenager' },
-    { id: 'teenagerboy', src: BoyTeenager, alt: 'Boy Teenager' },
-    { id: 'babygirl', src: BabyGirl, alt: 'Baby Girl' },
-    { id: 'babyboy', src: BabyBoy, alt: 'Baby Boy' }
-  ];
 
   useEffect(() => {
     //check existing children count from local storage
     const existingChildren = JSON.parse(localStorage.getItem('childrenData') || '[]');
     setChildCount(existingChildren.length);
+    setIsMaxReached(existingChildren.length >= 3);
   }, []);
 
   const handleAddChildProfile = async (e) => {
@@ -45,8 +44,8 @@ export default function CreateChildProfile() {
     setIsSubmitting(true);
 
     // Validate inputs
-    if (!childData.name || !childData.age || !childData.avatar) {
-      setError('Please fill out all required fields and select an avatar');
+    if (!childData.name || !childData.age || !childData.color) {
+      setError('Please fill out all required fields and select a background color');
       setIsSubmitting(false);
       return;
     }
@@ -54,8 +53,8 @@ export default function CreateChildProfile() {
     //get existing children from local storage
     const existingChildren = JSON.parse(localStorage.getItem('childrenData') || '[]');
 
-    if(existingChildren.length <= 2) {
-      setError('Maximum child profile is 2');
+    if(existingChildren.length >= 3) {
+      setError('Maximum to create child profile is 3');
       setIsSubmitting(false);
       return;
     }
@@ -65,7 +64,11 @@ export default function CreateChildProfile() {
       id: Date.now(),
       name: childData.name,
       age: childData.age,
-      avatar: {id:childData.avatar.id, src:`/asset/${childData.avatar.id}.png`, alt:childData.avatar.alt}
+      avatar: {
+        type: "initials",
+        initials: getInitialsName(childData.name),
+        bgcolor: childData.color,
+      }
     };
 
     const  updatedChildren = [...existingChildren, newChild];
@@ -76,97 +79,121 @@ export default function CreateChildProfile() {
     router.push("/mainpage");
   };
 
+  if (error) return <div className="text-center p-6">{error}</div>;
+
   
   return (
-    <section className="w-full bg-[] p-8 mb-20">
+    <section className="w-full p-8 mb-20">
       <div className="flex flex-col">
         <div className="mt-2">
           <h1 className="text-xl md:text-2xl font-bold">Add Child Profile</h1>
         </div>
 
-        <div className="mt-4 w-full bg-white shrink-0 rounded-2xl shadow-2xl p-6">
-          <form onSubmit={handleAddChildProfile}>
-            {error && <div className="text-red-500 mb-4">{error}</div>}
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Child Name</span>
-              </label>
-              <input 
-                type="text"
-                placeholder="Name"
-                value={childData.name}
-                onChange={(e) => setChildData({...childData, name:e.target.value})}
-                className="input input-bordered input-md bg-white w-full max-w-md"
-                required
-              />
+        {isMaxReached ? (
+          <div className='flex flex-col items-center justify-center' >
+            <div className="text-red-500 mt-4 text-center">
+              Maximum number of child profiles reached. Please delete an existing profile to add a new one.
             </div>
+            <button className="mt-4">
+              <Link href={"/mainpage"}>
+                <button type="button" className='btn border-white bg-[#FFB4B4] hover:border-[#FFDEB4] hover:bg-[#FFB4B4]/80 text-white'>
+                  Back to Main Page
+                </button>
+              </Link>
+            </button>
+          </div>
+          
+          ) : (
+          <div className="mt-4 w-full bg-white shrink-0 rounded-2xl shadow-2xl p-6">
+            <form onSubmit={handleAddChildProfile}>
+              {error && <div className="text-red-500 mb-4">{error}</div>}
 
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Age</span>
-              </label>
-              <input 
-                type="number"
-                placeholder="Age"
-                value={childData.age}
-                onChange={(e) => setChildData({...childData, age:e.target.value})}
-                className="input input-bordered input-md bg-white w-full max-w-md"
-                required
-                min="0"
-                max="18"
-              />
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Select Child Avatar</span>
-              </label>
-              <div className='grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-2'>
-                {avatarOptions.map((avatar) => (
-                  <div  
-                    key={avatar.id}
-                    className={`cursor-pointer p-2 border-4 rounded-3xl transition-all duration-300 ${
-                      childData.avatar?.id === avatar.id 
-                        ? 'border-blue-300 scale-105 ' 
-                        : 'border-gray-200 hover:border-gray-400'
-                    }`}
-                    onClick={() => setChildData({...childData, avatar: avatar})}
-                  >
-                    <Image
-                      src={avatar.src}
-                      alt={avatar.alt}
-                      width={150}
-                      height={150}
-                      className='mx-auto'
-                    />
-                  </div>
-                ))}
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Name</span>
+                </label>
+                <input 
+                  type="text"
+                  placeholder="Name"
+                  value={childData.name}
+                  onChange={(e) => setChildData({...childData, name:e.target.value})}
+                  className="input input-bordered input-md bg-white w-full max-w-md"
+                  required
+                />
               </div>
-            </div>
 
-            <div className="form-control flex flex-row mt-6 space-x-4 justify-end">
-              <button 
-                type="submit" 
-                className={`
-                  btn btn-md border-pink-400 border-2 bg-[#FFB4B4] hover:border-[#FFDEB4] hover:bg-[#FFB4B4] text-white
-                  ${isSubmitting ? 'Adding': 'Adding'}
-                  `}
-                disabled = {isSubmitting}
-              >
-                { isSubmitting ? 'Adding...' : 'Add Child'}
-              </button>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Age</span>
+                </label>
+                <input 
+                  type="number"
+                  placeholder="Age"
+                  value={childData.age}
+                  onChange={(e) => setChildData({...childData, age:e.target.value})}
+                  className="input input-bordered input-md bg-white w-full max-w-md"
+                  required
+                  min="0"
+                  max="18"
+                />
+              </div>
 
-              <button>
-                <Link href={"/mainpage"}>
-                  <button type="button" className='btn btn-md btn-neutral text-white'>
-                    Cancel
-                  </button>
-                </Link>
-              </button>
-            </div>
-          </form>
-        </div>
+              <div className="form-control mt-4">
+                <label className="label">
+                  <span className="label-text">Select Avatar Background Color</span>
+                </label>
+                <div className='flex gap-2 flex-wrap'>
+                  {colorOptions.map((color) => (
+                    <div  
+                      key={color}
+                      className={`cursor-pointer w-12 h-12 rounded-full border-4 ${
+                        childData.color === color
+                          ? 'border-pink-400 scale-110' 
+                          : 'border-transparent'
+                      }`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => setChildData({...childData, color})}
+                    >
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {childData.name && (
+                <div className='mt-4'>
+                  <label>Avatar Preview</label>
+                  <div
+                    className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl shadow"
+                    style={{ backgroundColor: childData.color }}        
+                  >
+                    {getInitialsName(childData.name)}
+                  </div>
+                </div>
+              )}
+
+              <div className="form-control flex flex-row mt-6 space-x-4 justify-end">
+                <button 
+                  type="submit" 
+                  className={`
+                    btn btn-md border-pink-400 border-2 bg-[#FFB4B4] hover:border-[#FFDEB4] hover:bg-[#FFB4B4]/80 text-white
+                    ${isSubmitting ? '...': 'Adding'}
+                    `}
+                  disabled = {isSubmitting || isMaxReached}
+                >
+                  { isSubmitting ? 'Adding...' : 'Add Child'}
+                </button>
+
+                <button>
+                  <Link href={"/mainpage"}>
+                    <button type="button" className='btn btn-md btn-neutral text-white'>
+                      Cancel
+                    </button>
+                  </Link>
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </section>
   )
