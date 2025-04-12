@@ -31,31 +31,30 @@ export default function ChildrenList() {
           <p className="text-center text-gray-600 col-span-full">No children added yet.</p>
         ) : (
           childData.map((child) => (
-            <div
-              key={child.id}
-              className="bg-white rounded-2xl shadow-md p-4 flex flex-col items-center gap-3 transition hover:scale-105 duration-200"
-            >
-              <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#FFB4B4]">
-                <Image
-                  src={child.avatar?.src || "/placeholder.png"}
-                  alt={child.avatar?.alt || "Child's avatar"}
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover"
-                  unoptimized
-                />
+            <div key={child.id} className="bg-white rounded-2xl shadow-md p-4 flex flex-row items-center gap-3 transition hover:scale-105 duration-200">
+              <div className="w-20 h-20 rounded-full flex items-center justify-center border-4 border-gray-400"
+                style={{ backgroundColor: child.avatar.bgcolor }} 
+              >
+                <span className='text-white text-4xl font-bold'>
+                  {child.avatar.initials}
+                </span>
               </div>
-              <h2 className="text-xl font-semibold text-[#FF9494]">{child.name}</h2>
 
-              <div className="flex gap-2 mt-2">
+              <div className="flex flex-col">
+                <h2 className="text-xl font-semibold text-[#FF9494]">{child.name}</h2>
+                <p className="text-gray-500 text-sm">{child.age} years old</p>
+              </div>
+              
+
+              <div className="flex justify-end gap-2 ml-auto">
                 <Link href={`/edit-child/${child.id}`}>
-                  <button className="px-3 py-1 rounded-md bg-[#FFB4B4] text-white hover:bg-[#FFD1D1]">
+                  <button className="px-3 py-1 rounded-md bg-[#FFB4B4] text-white hover:bg-[#FFB4B4]/80">
                     Edit
                   </button>
                 </Link>
                 <button
                   onClick={() => handleDelete(child.id)}
-                  className="px-3 py-1 rounded-md bg-red-400 text-white hover:bg-red-300"
+                  className="px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-600/80"
                 >
                   Delete
                 </button>
