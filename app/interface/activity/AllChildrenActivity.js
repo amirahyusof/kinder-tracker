@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import Image from "next/image";
 
 
 export default function ListActivity({ activityData, setActivityData, childData}) {
@@ -103,15 +102,10 @@ export default function ListActivity({ activityData, setActivityData, childData}
                 {/* display child's avatar and name */}
                 { child ? (
                     <div className="flex flex-col items-center mt-2">
-                      <div className="w-12 h-12 rounded-full overflow-hidden">
-                        <Image
-                          src={child.avatar?.src || "/placeholder.png"}
-                          width={200}
-                          height={200}
-                          alt={child.avatar?.alt || "Child's avatar"}
-                          className="w-full h-full object-cover"
-                          priority
-                        />
+                      <div className="w-12 h-12 rounded-full flex overflow-hidden items-center justify-center border-2 border-gray-300" style={{ backgroundColor: child.avatar.bgcolor }} >
+                      <span className='text-white text-2xl font-bold'>
+                        {child.avatar.initials}
+                      </span>
                       </div>
                       <h2 className="font-semibold py-1">{child.name}</h2>
                     </div>
@@ -119,8 +113,6 @@ export default function ListActivity({ activityData, setActivityData, childData}
                       <p>Child not found</p>
                   )}
                 
-              
-
                 {/* Edit and Delete buttons */}
                 <div className='card-actions flex items-center justify-end space-x-2'>
                   <button

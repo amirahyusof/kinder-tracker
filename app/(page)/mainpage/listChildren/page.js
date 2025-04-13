@@ -23,7 +23,7 @@ export default function ChildrenList() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FFF9CA] p-6">
+    <main className="min-h-screen bg-[#FFF9CA] p-6 dark:bg-gray-900 transition-colors duration-300">
       <h1 className="text-3xl font-bold text-[#FF9494] text-center mb-6">🧒🏻 Your Children</h1>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

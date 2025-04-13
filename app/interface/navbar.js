@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, User, Candy, Sticker } from 'lucide-react';
+import { Home, Settings, Candy, Sticker } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,7 @@ export default function NavBar() {
     { href: "/mainpage", icon: Home, label: 'Home' },
     { href: "/mainpage/listActivity", icon: Sticker, label: 'Activity' },
     { href: "/mainpage/listChildren", icon: Candy, label: 'Children' },
-    { href: "/mainpage/profile", icon: User, label: 'Profile' },
+    { href: "/mainpage/more", icon: Settings, label: 'More' },
     
   ];
 

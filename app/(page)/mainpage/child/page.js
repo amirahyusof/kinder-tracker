@@ -83,7 +83,7 @@ export default function CreateChildProfile() {
 
   
   return (
-    <section className="w-full p-8 mb-20">
+    <section className="w-full p-8 mb-20 dark:bg-gray-900 transition-colors duration-300">
       <div className="flex flex-col">
         <div className="mt-2">
           <h1 className="text-xl md:text-2xl font-bold">Add Child Profile</h1>
