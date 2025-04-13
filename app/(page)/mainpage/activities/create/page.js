@@ -53,7 +53,7 @@ export default function CreateActivity() {
   };
 
   return (
-    <section className="bg-yellow-50 p-6 rounded-2xl shadow-lg max-w-lg mx-auto">
+    <section className="bg-yellow-50 p-6 rounded-2xl shadow-lg max-w-lg mx-auto mt-10">
       <h2 className="text-xl font-semibold text-gray-600 mb-4">🎯 Create New Activity</h2>
       <form onSubmit={handleSubmitActivity} className="w-full p-4">
         

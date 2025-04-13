@@ -47,7 +47,7 @@ export default function ChildrenActivities() {
   }
 
   return (
-    <section className='p-6 min-h-screen bg-[#FFF9CA]'>
+    <section className='p-6 min-h-screen bg-[#FFF9CA] dark:bg-gray-900 transition-colors duration-300'>
       <div className='flex items-center justify-between'>
         <h1 className='text-xl'>
           List Activities of Children

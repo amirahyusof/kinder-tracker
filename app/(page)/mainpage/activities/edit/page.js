@@ -209,9 +209,8 @@ export default function EditActivity() {
         <div className="flex justify-end space-x-4">
           <button
             type="submit"
-            className={`btn px-4 py-2 rounded-3xl text-white w-[120px] ${
-              isEditing ? 'bg-green-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-500'
-            }`}
+            className={`btn rounded-3xl text-white w-[100px] 
+              ${ isEditing ? 'bg-green-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-500'}`}
             disabled={isEditing}
           >
             {isEditing ? 'Editing...' : 'Save'}
@@ -220,7 +219,7 @@ export default function EditActivity() {
           <button
             type="button"
             onClick={handleCancel}
-            className="btn px-4 py-2 rounded-3xl bg-red-500 text-white hover:bg-red-400 w-[120px]"
+            className="btn rounded-3xl bg-red-500 text-white hover:bg-red-400 w-[100px]"
           >
             Cancel
           </button>

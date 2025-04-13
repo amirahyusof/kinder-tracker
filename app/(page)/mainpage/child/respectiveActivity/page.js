@@ -54,19 +54,15 @@ export default function ActivityRespectiveChild() {
   }
 
   return (
-    <section className='p-6 min-h-screen bg-[#FFF9CA]'>
+    <section className='p-6 min-h-screen bg-[#FFF9CA] dark:bg-gray-900 transition-colors duration-300'>
       <div className='flex items-center justify-between mb-4'>
         <div className='flex items-center'>
           {child ? (
             <>
-              <div className="w-16 h-16 rounded-full overflow-hidden mr-4">
-                <Image
-                  src={child.avatar?.src || '/placeholder.png'} 
-                  width={200}
-                  height={200}
-                  alt={child.avatar?.alt || "Child's avatar"} 
-                  className="w-full h-full object-cover"
-                />
+              <div className="w-16 h-16 flex rounded-full overflow-hidden mr-4 items-center justify-center border-2 border-gray-400" style={{ backgroundColor: child.avatar.bgcolor }} >
+              <span className='text-white text-4xl font-bold'>
+                  {child.avatar.initials}
+                </span>
               </div>
               <h1 className='text-xl'>
                 List Activities for <span className='font-semibold'>{child.name}</span>

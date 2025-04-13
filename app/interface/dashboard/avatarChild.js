@@ -33,21 +33,19 @@ export default function AvatarChild() {
         </div>
 
         {/* Render Child Avatars */}
-        {childData.length > 0 ? (
+        {childData.length <= 3 ? (
           childData.map((child) => (
             <div key={child.id} className='avatar flex flex-col cursor-pointer '>
-              <div className='w-20 h-20 space-x-2 rounded-full border-2 overflow-hidden'>
-                <Link href={`/mainpage/child/respectiveActivity?childId=${child.id}`}>
-                  <Image
-                    src={child.avatar?.src || "/placeholder.png"} // Fallback image
-                    width={100}
-                    height={100}
-                    alt={child.avatar?.alt || "Child's avatar"}
-                    className='w-full h-full object-cover'
-                    priority
-                  />
-                </Link>
-              </div>
+              {/* Avatar with Link to respective activity */}
+              <Link href={`/mainpage/child/respectiveActivity?childId=${child.id}`}>
+                <div className='w-20 h-20 rounded-full flex items-center justify-center'
+                   style={{ backgroundColor: child.avatar.bgcolor }}
+                >
+                  <span className='text-white text-4xl font-bold'>
+                    {child.avatar.initials}
+                  </span>
+                </div>
+              </Link>
               <p className='text-sm text-center mt-2 text-gray-400'>{child.name || "Unknown"}</p>
             </div>
           ))
