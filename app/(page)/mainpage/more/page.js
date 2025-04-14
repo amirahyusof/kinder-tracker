@@ -1,52 +1,68 @@
 "use client"
 import React, { useEffect, useState, useContext} from 'react';
 import { ThemeContext } from '@/app/context/ThemeContext';
+import ReminderBanner from '@/app/components/ReminderBanner';
 
 export default function ParentToolsPage() {
   const {theme, toggleTheme} = useContext(ThemeContext);
   const [dailyReminder, setDailyReminder] = useState(false);
   const [journal, setJournal] = useState('');
+  const [reminderTime, setReminderTime] = useState("09:00"); // Default reminder time
+  const [loaded, setLoaded] = useState(false);
 
   // Load settings from localStorage
   useEffect(() => {
-    setDailyReminder(localStorage.getItem('dailyReminder') === 'true');
+    setDailyReminder(JSON.parse(localStorage.getItem('dailyReminder') || "false"));
     setJournal(localStorage.getItem('journal') || '');
+    setReminderTime(localStorage.getItem('reminderTime') || '09:00');
+    setLoaded(true);
   }, []);
 
   // Save to localStorage on change
   useEffect(() => {
-    localStorage.setItem('dailyReminder', dailyReminder.toString());
+    localStorage.setItem('dailyReminder', JSON.stringify(dailyReminder));
     localStorage.setItem('journal', journal);
-  }, [theme, dailyReminder, journal]);
+    localStorage.setItem('reminderTime', reminderTime);
+  }, [theme, dailyReminder, journal, reminderTime]);
 
   // Notification Logic
   useEffect(() => {
     if (!dailyReminder) return;
-    if (Notification.permission !== 'granted') {
-      Notification.requestPermission();
+
+    if(Notification.permission !== 'granted') {
+      Notification.requestPermission().then((permission) => {
+        if(permission === 'granted') return;
+      });
     }
 
+    if(Notification.permission !== 'granted') return;
+    
     const now = new Date();
-    const reminderTime = new Date();
-    reminderTime.setHours(9, 0, 0, 0); // 9 AM
+    const reminderTimeDate = new Date();
+    const [hour, minute] = reminderTime.split(':').map(Number);
+    reminderTimeDate.setHours(hour, minute, 0, 0); // User can enter time reminder
 
-    if (now > reminderTime) reminderTime.setDate(reminderTime.getDate() + 1);
+    if (now > reminderTimeDate) {
+      reminderTimeDate.setDate(reminderTimeDate.getDate() + 1);// schedule for the next day
+    }
 
-    const timeout = reminderTime.getTime() - now.getTime();
+    const timeout = reminderTimeDate.getTime() - now.getTime();
+
     const timer = setTimeout(() => {
       new Notification('🌸 Daily Reminder', {
-        body: 'Check your parenting activities today!'
+        body: "Don't forget to check your children's activities today!"
       });
 
+      // Set interval for daily reminder
       setInterval(() => {
         new Notification('🌸 Daily Reminder', {
-          body: 'Check your parenting activities today!'
+          body: 'Check back for your children progress today 🌼'
         });
       }, 24 * 60 * 60 * 1000);
     }, timeout);
 
     return () => clearTimeout(timer);
-  }, [dailyReminder]);
+  }, [dailyReminder, reminderTime]);
 
   // Reset App
   const handleReset = () => {
@@ -64,7 +80,8 @@ export default function ParentToolsPage() {
       preferences: {
         theme,
         dailyReminder,
-        journal
+        journal, 
+        reminderTime,
       }
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -86,21 +103,39 @@ export default function ParentToolsPage() {
             className="px-4 py-2 rounded-md bg-[#FFB4B4] text-white hover:bg-[#FFB4B4]/80 transition"
           >
             Toggle {theme === "dark" ? "Light" : "Dark"} Mode
-      </button>
+          </button>
         </section>
 
-        <section>
-          <h2 className="text-xl font-semibold text-[#FF9494] mb-2">Daily Reminder</h2>
-          <label className="flex items-center gap-2">
+        {loaded && (
+          <section>
+            <h2 className="text-xl font-semibold text-[#FF9494] mb-2">Daily Reminder</h2>
+            <label className="flex items-center gap-2 mb-2">
             <input
               type="checkbox"
               checked={dailyReminder}
               onChange={(e) => setDailyReminder(e.target.checked)}
-              className='h-4 w-4 bg-white border-gray-300 rounded focus:ring-[#FF9494]'
+              className="toggle bg-[#FFB4B4] border-gray-300 checked:bg-[#FFB4B4]/80 checked:border-[#FF9494] checked:text-orange-800"
             />
-            Enable 9 AM Reminder
-          </label>
-        </section>
+              Enable Reminder
+            </label>
+
+            {dailyReminder && (
+              <div className="flex items-center gap-2">
+                <label htmlFor="reminderTime" className="text-sm text-gray-700 dark:text-gray-300">
+                  Reminder Time:
+                </label>
+                <input
+                  id="reminderTime"
+                  type="time"
+                  value={reminderTime}
+                  onChange={(e) => setReminderTime(e.target.value)}
+                  className="border border-gray-300 rounded px-2 py-1 bg-white"
+                />
+              </div>
+            )}
+          </section>
+        )}
+
 
         <section>
           <h2 className="text-xl font-semibold text-[#FF9494] mb-2">Parent Journal</h2>

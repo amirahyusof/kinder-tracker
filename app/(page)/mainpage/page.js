@@ -24,8 +24,8 @@ export default function Homepage(){
     setActivityUndoneData(undoneActivities);
 
     //Check daily reminder
-    const reminderSetting = JSON.parse(localStorage.getItem("dailyReminder") || "false");
-    setShowReminder(reminderSetting);
+    const isReminderOn = JSON.parse(localStorage.getItem("dailyReminder") ||'false');
+    setShowReminder(isReminderOn);
 
     setLoading(false);
   }, []);
@@ -34,7 +34,7 @@ export default function Homepage(){
 
   return (
     <section className= "bg-[#FFF9CA]  md:mx-10 dark:bg-gray-900 transition-colors duration-300" >
-      {showReminder && <ReminderBanner /> }
+      {showReminder && <ReminderBanner onClose={() => setShowReminder(false)} /> }
       <AvatarChild childData={childData} />
       <ActivityCard 
         activityData={activityUndoneData} 
