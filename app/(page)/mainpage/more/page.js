@@ -1,19 +1,16 @@
 "use client"
 import React, { useEffect, useState, useContext} from 'react';
 import { ThemeContext } from '@/app/context/ThemeContext';
-import ReminderBanner from '@/app/components/ReminderBanner';
 
 export default function ParentToolsPage() {
   const {theme, toggleTheme} = useContext(ThemeContext);
   const [dailyReminder, setDailyReminder] = useState(false);
-  const [journal, setJournal] = useState('');
   const [reminderTime, setReminderTime] = useState("09:00"); // Default reminder time
   const [loaded, setLoaded] = useState(false);
 
   // Load settings from localStorage
   useEffect(() => {
     setDailyReminder(JSON.parse(localStorage.getItem('dailyReminder') || "false"));
-    setJournal(localStorage.getItem('journal') || '');
     setReminderTime(localStorage.getItem('reminderTime') || '09:00');
     setLoaded(true);
   }, []);
@@ -21,9 +18,8 @@ export default function ParentToolsPage() {
   // Save to localStorage on change
   useEffect(() => {
     localStorage.setItem('dailyReminder', JSON.stringify(dailyReminder));
-    localStorage.setItem('journal', journal);
     localStorage.setItem('reminderTime', reminderTime);
-  }, [theme, dailyReminder, journal, reminderTime]);
+  }, [theme, dailyReminder, reminderTime]);
 
   // Notification Logic
   useEffect(() => {
@@ -80,7 +76,6 @@ export default function ParentToolsPage() {
       preferences: {
         theme,
         dailyReminder,
-        journal, 
         reminderTime,
       }
     };
@@ -138,13 +133,13 @@ export default function ParentToolsPage() {
 
 
         <section>
-          <h2 className="text-xl font-semibold text-[#FF9494] mb-2">Parent Journal</h2>
-          <textarea
-            className="w-full h-32 p-2 border border-gray-300 rounded bg-white"
-            value={journal}
-            onChange={(e) => setJournal(e.target.value)}
-            placeholder="Reflect on your child's growth..."
-          ></textarea>
+        <h2 className="text-xl font-semibold text-[#FF9494] mb-2">📝 Parent Journal</h2>
+          <button
+            onClick={() => window.location.href = "/mainpage/more/parentJournal"}
+            className="px-4 py-2 rounded-md bg-[#FFB4B4] text-white hover:bg-[#FFB4B4]/80 transition"  
+          >
+            👩‍👧 View Parent Reflections
+          </button>
         </section>
 
         <section>
