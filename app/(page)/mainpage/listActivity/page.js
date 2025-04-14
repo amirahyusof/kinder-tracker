@@ -32,10 +32,7 @@ export default function ChildrenActivities() {
       console.log("childId from URL:", childId);
       console.log("Parsed childId:", parsedChildId);
 
-
       setLoading(false);
-    
-    
   }, []);
 
   if (error) {
