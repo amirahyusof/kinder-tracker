@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ReactConfetti from 'react-confetti';
 import { PartyPopper, CalendarIcon, PencilIcon, CheckCircleIcon } from 'lucide-react';
@@ -14,10 +14,10 @@ export default function EditActivity() {
   const [updatedActivity, setUpdatedActivity] = useState({
     id: '',
     childId: '',
-    name: '',
+    activity: '',
     description: '',
     dueDate: '',
-    status: 'undone',
+    status: '',
   });
 
   const [loading, setLoading] = useState(true);
@@ -26,6 +26,7 @@ export default function EditActivity() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showRewardAlert, setShowRewardAlert] = useState(false);
   const [previousStatus, setPreviousStatus] = useState('');
+  const [journalEntry, setJournalEntry] = useState("");
 
   // Fetch activity from localStorage
   useEffect(() => {
@@ -69,6 +70,25 @@ export default function EditActivity() {
       );
 
       localStorage.setItem('activityData', JSON.stringify(updatedActivities));
+
+      //save journal only if status is done and entry exists
+      if(updatedActivity.status === "done" && journalEntry.trim() !== "") {
+        const journalData = JSON.parse(localStorage.getItem('parentJournals')) || [];
+        
+        const newEntry = {
+          id: Date.now(),
+          childId: updatedActivity.childId,
+          activityId: updatedActivity.id,
+          title: updatedActivity.activity,
+          activityDescription: updatedActivity.description,
+          journal: journalEntry,
+          createdAt: new Date().toISOString(),
+        };
+
+        localStorage.setItem('parentJournals', JSON.stringify([...journalData, newEntry]));
+        console.log("Journal entry saved:", newEntry);
+      }
+
 
       if (previousStatus !== 'done' && updatedActivity.status === 'done') {
         setShowConfetti(true);
@@ -202,8 +222,17 @@ export default function EditActivity() {
             <option value="done">Done</option>
           </select>
           </div>
-          
         </div>
+
+        {/* Add journal field only if status is "done" */}
+        {updatedActivity.status === "done" && (
+          <textarea
+            placeholder='Write a journal entry for this activity...'
+            value={journalEntry}
+            onChange={(e) => setJournalEntry(e.target.value)}
+            className="w-full p-2 mt-2 border bg-gray-100 rounded-lg mb-4"
+          />
+        )}
 
         {/* Buttons */}
         <div className="flex justify-end space-x-4">
