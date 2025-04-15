@@ -1,18 +1,18 @@
-import Image from 'next/image'
+
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Plus } from 'lucide-react';
   
-export default function AvatarChild() {
+export default function AvatarChild({childData}) {
   //save child data to local storage
-  const [childData, setChildData] = useState([]);
+  // const [childData, setChildData] = useState([]);
 
-  useEffect(() => {
-    //Load child profiles from local storage
-    const storageData = JSON.parse(localStorage.getItem('childrenData') || '[]');
-    setChildData(storageData);
-    console.log('Child Data in AvatarChild:', storageData);
-  }, [])
+  // useEffect(() => {
+  //   //Load child profiles from local storage
+  //   const storageData = JSON.parse(localStorage.getItem('childrenData') || '[]');
+  //   setChildData(storageData);
+  //   console.log('Child Data in AvatarChild:', storageData);
+  // }, [])
 
   return (
     <section className='p-4 w-full'>

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function ParentJournalPage() {
+  const [childName, setChildName] = useState('');
   const [journals, setJournals] = useState([]);
   const [children, setChildren] = useState([]);
   const [selectedChildId, setSelectedChildId] = useState("all");
@@ -10,17 +11,24 @@ export default function ParentJournalPage() {
   const [editedText, setEditedText] = useState("");
 
   useEffect(() => {
+    const childData = JSON.parse(localStorage.getItem("childrenData")) || [];
     const data = JSON.parse(localStorage.getItem("parentJournals")) || [];
+    setChildName(childData);
     setJournals(data);
 
     const uniqueChildren = Array.from(
       new Set(data.map((j) => j.childId))
     ).map((id) => ({
       id,
-      name: `Child ${id}`, // Optional: replace this with actual child name if you have it
+      name: childData.find((child) => child.id === parseInt(id))?.name || "Unknown Child",
     }));
     setChildren(uniqueChildren);
   }, []);
+
+  const getChildName = (id) => {
+    const child = childName.find((c) => c.id === parseInt(id));      
+    return child ? child.name : "Unknown Child"; // Optional: replace this with actual child name if you have it
+  };
 
   const handleDelete = (id) => {
     if (confirm("Delete this journal entry?")) {
@@ -52,7 +60,7 @@ export default function ParentJournalPage() {
 
   return (
     <section className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-4">📓 Parent Journal</h1>
+      <h1 className="text-2xl font-semibold text-gray-800 mb-4">📔 Parent Journal</h1>
 
       {/* Filter */}
       <div className="mb-4">
@@ -81,11 +89,18 @@ export default function ParentJournalPage() {
             .map((entry) => (
               <li
                 key={entry.id}
-                className="p-4 bg-white rounded-md shadow-md border border-yellow-200"
+                className="px-4 py-2 bg-white rounded-3xl shadow-md border border-yellow-200"
               >
-                <h3 className="text-lg font-bold text-yellow-700 mb-1">
-                  {entry.title}
-                </h3>
+                <div className="flex justify-between">
+                  <h3 className="text-lg font-bold capitalize text-yellow-700 mb-1">
+                    {entry.title}
+                  </h3>
+
+                  <h2 className="text-lg text-yellow-800 font-semibold mb-1">
+                   🍀{getChildName(entry.childId)}
+                  </h2>
+                </div>
+                  
                 <p className="text-sm text-gray-600 mb-2">
                   <span className="font-medium">Description:</span>{" "}
                   {entry.activityDescription}
@@ -110,7 +125,7 @@ export default function ParentJournalPage() {
                         Save
                       </button>
                       <button
-                        className="bg-gray-300 text-black px-3 py-1 rounded"
+                        className=" bg-gray-300 text-black px-3 py-1 rounded"
                         onClick={() => setEditingId(null)}
                       >
                         Cancel
@@ -119,16 +134,16 @@ export default function ParentJournalPage() {
                   </>
                 ) : (
                   <>
-                    <p className="text-gray-800 mb-2">{entry.journal}</p>
-                    <div className="flex gap-4">
+                    <p className="text-gray-800 mb-2 text-sm">{entry.journal}</p>
+                    <div className="flex gap-4 justify-end">
                       <button
-                        className="text-sm text-blue-600 hover:underline"
+                        className="border-2 p-2 rounded-2xl text-sm text-blue-600 hover:bg-blue-600 hover:text-white"
                         onClick={() => handleEdit(entry.id, entry.journal)}
                       >
                         ✏️ Edit
                       </button>
                       <button
-                        className="text-sm text-red-500 hover:underline"
+                        className="border-2 p-2 rounded-2xl text-sm text-red-500 hover:bg-red-500 hover:text-white"
                         onClick={() => handleDelete(entry.id)}
                       >
                         🗑️ Delete
