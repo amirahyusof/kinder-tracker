@@ -63,7 +63,7 @@ export default function ListActivity({ activityData, setActivityData, childData}
           const child = childData.find((child) => child.id.toString() === data.childId);
 
           return(
-            <div key={data.id} className="border-2 border-[#FFDEB4] rounded-2xl">
+            <div key={data.id} className="cursor-pointer border-2 border-[#FFDEB4] rounded-2xl transition hover:scale-105 duration-200">
             <div className=" bg-white shadow-md rounded-2xl px-2 py-4 flex flex-row items-center justify-between">
               <div className="px-2">
                 <h3 className="font-semibold text-gray-600 text-sm">
@@ -94,7 +94,7 @@ export default function ListActivity({ activityData, setActivityData, childData}
                     }`}
                   >
                     {getStatusDisplay(data.status)}
-                </span>
+                  </span>
                 </div>
               </div>
 
