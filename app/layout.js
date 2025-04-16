@@ -2,6 +2,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/app/context/ThemeContext";
+import ClientOnly from "./components/ClientOnly";
+import Loading from "./components/loading";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,7 +28,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeProvider>
+          <ClientOnly fallback={<Loading />}>
           {children}
+          </ClientOnly>
         </ThemeProvider>
       </body>
     </html>
