@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -31,7 +30,7 @@ export default function ChildrenList() {
           <p className="text-center text-gray-600 col-span-full">No children added yet.</p>
         ) : (
           childData.map((child) => (
-            <div key={child.id} className="bg-white rounded-2xl shadow-md p-4 flex flex-row items-center gap-3 transition hover:scale-105 duration-200">
+            <div key={child.id} className="bg-white cursor-pointer rounded-2xl shadow-md p-4 flex flex-row items-center gap-3 transition hover:scale-105 duration-200">
               <div className="w-20 h-20 rounded-full flex items-center justify-center border-4 border-gray-400"
                 style={{ backgroundColor: child.avatar.bgcolor }} 
               >

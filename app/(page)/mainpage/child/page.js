@@ -27,15 +27,13 @@ export default function CreateChildProfile() {
   });
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [childCount, setChildCount] = useState(0);
   const [isMaxReached, setIsMaxReached] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     //check existing children count from local storage
     const existingChildren = JSON.parse(localStorage.getItem('childrenData') || '[]');
-    setChildCount(existingChildren.length);
-    setIsMaxReached(existingChildren.length >= 3);
+     setIsMaxReached(existingChildren.length >= 3);
   }, []);
 
   const handleAddChildProfile = async (e) => {
@@ -94,11 +92,9 @@ export default function CreateChildProfile() {
             <div className="text-red-500 mt-4 text-center">
               Maximum number of child profiles reached. Please delete an existing profile to add a new one.
             </div>
-            <button className="mt-4">
+            <button type="button" className='btn mt-4 border-white bg-[#FFB4B4] hover:border-[#FFDEB4] hover:bg-[#FFB4B4]/80 text-white'>
               <Link href={"/mainpage"}>
-                <button type="button" className='btn border-white bg-[#FFB4B4] hover:border-[#FFDEB4] hover:bg-[#FFB4B4]/80 text-white'>
-                  Back to Main Page
-                </button>
+                Back to Main Page
               </Link>
             </button>
           </div>
@@ -183,11 +179,9 @@ export default function CreateChildProfile() {
                   { isSubmitting ? 'Adding...' : 'Add Child'}
                 </button>
 
-                <button>
+                <button type="button" className='btn btn-md btn-neutral text-white'>
                   <Link href={"/mainpage"}>
-                    <button type="button" className='btn btn-md btn-neutral text-white'>
-                      Cancel
-                    </button>
+                    Cancel
                   </Link>
                 </button>
               </div>
