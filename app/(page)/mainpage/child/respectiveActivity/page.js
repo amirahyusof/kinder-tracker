@@ -81,16 +81,16 @@ export default function ActivityRespectiveChild() {
           {/* Need to fix */}
           <button 
             onClick={() => router.push(`/mainpage/profile/parent/child?childId=${childId}`)}
-            className='place-items-center mt-4 max-w-xs bg-[#FF9494] text-white px-4 py-2 rounded hover:bg-[#FFD1D1] transition'
+            className='place-items-center mt-4  bg-[#FF9494] text-white p-4 rounded-full hover:bg-[#FFD1D1] transition'
           >
-            View Profile
+            View
           </button>
 
           <button 
             onClick={() => router.push(`/mainpage/activities/create?childId=${childId}`)}
-            className='place-items-center mt-4 max-w-xs bg-[#FF9494] text-white px-4 py-2 rounded hover:bg-[#FFD1D1] transition'
+            className='place-items-center mt-4  bg-[#FF9494] text-white p-4 rounded-full hover:bg-[#FFD1D1] transition'
           >
-            + Task
+            <span className='text-l'>+</span>Task
           </button>
         </div>
       </div>

@@ -33,7 +33,7 @@ export default function Homepage(){
   if (loading) return <div className="text-center p-6">Loading...</div>;
 
   return (
-    <section className= "bg-[#FFF9CA]  md:mx-10 dark:bg-gray-900 transition-colors duration-300" >
+    <section className= "bg-[#FFF9CA] md:mx-10 dark:bg-gray-900 transition-colors duration-300" >
       {showReminder && <ReminderBanner onClose={() => setShowReminder(false)} /> }
       <AvatarChild childData={childData} />
       <ActivityCard 
