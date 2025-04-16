@@ -7,11 +7,21 @@ import Image from "next/image";
 export default function ActivityCard({ activityData, childData}){
   const router = useRouter();
 
-  const handleEditTask = (childId, activityId) => {
+  const childClick = (childId, activityId) => {
     const parsedChildId = parseInt(childId);
     router.push(`/mainpage/activities/edit?childId=${childId}&activityId=${activityId}`);
   };
 
+  const getStatusDisplay = (status) => {
+    switch (status) {
+      case "done":
+        return "🥳 Done";
+      case "in-progress":
+        return "🫣 In Progress";
+      default:
+        return "🥹 Not started yet";
+    }
+  };
 
   return (
     <main className="p-4 w-full">
@@ -30,25 +40,34 @@ export default function ActivityCard({ activityData, childData}){
           const child = childData.find((child) => child.id.toString() === data.childId);
 
         return (
-          <div key={data.id} className="bg-[#FFB4B4] p-4 shadow rounded-3xl space-y-2">
+          <div key={data.id} 
+            onClick={() => childClick(data.childId, data.id)}
+            className="cursor-pointer px-4 py-3 bg-white rounded-3xl shadow-md border border-pink-200 transition hover:scale-105 duration-200">
             <div className="flex flex-row justify-between">
               <div className="flex flex-col space-y-2">
                 <h3 className="font-semibold text-gray-600 text-sm">
                   Activity:
-                  <span className="text-white capitalize text-md"> {data.activity} </span>
+                  <span className="text-pink-300 mt-1 capitalize text-md"> {data.activity} </span>
                 </h3>
-                <div className="flex flex-row space-x-2">
-                  <p className="text-sm font-semibold text-gray-600" >
-                    Status: <span className="capitalize font-normal">{data.status}</span>
-                  </p>
-                  {/* Edit Button */}
-                  <div className="flex justify-end">
-                    <Pencil 
-                      className="h-4 w-4 text-white hover:text-[#FF9494] transition "  
-                      onClick={() => handleEditTask(data.childId, data.id)} 
-                    />
-                  </div>
-                </div>
+                <h3 className="font-semibold text-gray-600 text-sm">
+                  Description:
+                  <span className="text-pink-300 mt-1 text-xs"> {data.description} </span>
+                </h3>
+
+                <p className="text-sm font-semibold text-gray-600" >
+                  Status: 
+                  <span
+                    className={`px-2 py-1 text-xs rounded ${
+                      data.status === "done"
+                      ? " bg-green-100 text-green-600"
+                      : data.status === "in-progress"
+                      ? "bg-yellow-100 text-yellow-600"
+                      : " w-16 bg-red-100 text-red-600"
+                    }`}
+                  >
+                    {getStatusDisplay(data.status)}
+                  </span>
+                </p>
               </div>
               
               {/* display child's avatar and name */}
