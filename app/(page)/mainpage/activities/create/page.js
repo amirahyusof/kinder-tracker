@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CalendarIcon, PencilIcon } from "lucide-react";
+import SuccessBanner from '@/app/components/successBanner';
 
 export default function CreateActivity() {
   const searchParams = useSearchParams();
@@ -16,7 +17,9 @@ export default function CreateActivity() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
+
 
   const handleSubmitActivity = async (e) => {
     e.preventDefault();
@@ -48,15 +51,24 @@ export default function CreateActivity() {
     //update existing activity with new activity
     const updatedActivities = [...existingActivities, newActivity];
     localStorage.setItem('activityData', JSON.stringify(updatedActivities));
-    alert('Activity created successfully!');
-    router.push(`/mainpage/child/respectiveActivity?childId=${childId}`);
+    
+    setSuccess(true);
+    setTimeout(() => {
+      router.push(`/mainpage/child/respectiveActivity?childId=${childId}`);
+    }, 5000)
   };
 
   return (
     <section className="bg-yellow-50 p-6 rounded-2xl shadow-lg max-w-lg mx-auto mt-10">
+      {success && (
+        <SuccessBanner
+          message="Activity created successfully!"
+          onClose={() => setSuccess(false)}
+        />
+      )}
+      
       <h2 className="text-xl font-semibold text-gray-600 mb-4">🎯 Create New Activity</h2>
       <form onSubmit={handleSubmitActivity} className="w-full p-4">
-        
         {/* Get the activity name */}
         <div className="form-control mb-4">
           <label htmlFor="activity" className="label">
