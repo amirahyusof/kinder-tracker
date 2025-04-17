@@ -27,6 +27,7 @@ export default function CreateChildProfile() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMaxReached, setIsMaxReached] = useState(false);
+  const [success, setSuccess] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -72,8 +73,10 @@ export default function CreateChildProfile() {
 
     //save new child profile to local storage
     localStorage.setItem('childrenData', JSON.stringify(updatedChildren));
-    alert('Successfully created child profile!');
-    router.push("/mainpage");
+    setSuccess("Successfully created child profile!");
+    setTimeout(() => {
+      router.push("/mainpage");
+    }, 1500);
   };
 
   if (error) return <div className="text-center p-6">{error}</div>;
@@ -81,6 +84,12 @@ export default function CreateChildProfile() {
   
   return (
     <section className="w-full p-8 mb-20 dark:bg-gray-900 transition-colors duration-300">
+      {success && (
+        <div className='flex items-center justify-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative z-10 maz-w-md transition-all duration-300' role="alert">
+          <strong className="text-green-500">{success}</strong>
+          <span className='block sm:inline ml-2'>{success}</span>
+        </div>
+      )}
       <div className="flex flex-col">
         <div className="mt-2">
           <h1 className="text-xl md:text-2xl font-bold">Add Child Profile</h1>
@@ -97,7 +106,6 @@ export default function CreateChildProfile() {
               </Link>
             </button>
           </div>
-          
           ) : (
           <div className="mt-4 w-full bg-white shrink-0 rounded-2xl shadow-2xl p-6">
             <form onSubmit={handleAddChildProfile}>
