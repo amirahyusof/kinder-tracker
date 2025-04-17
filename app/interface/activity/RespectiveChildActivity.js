@@ -22,15 +22,18 @@ export default function ListActivity({ activityData, setActivityData, childId}) 
 
       //get acyivity data from localStorage
       const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
-      const activityToDelete = storageActivity.filter(activity => activity.id !== activityId);
-      localStorage.setItem('activityData', JSON.stringify(activityToDelete));
+      //remove the one with matching id
+      const updatedActivities = storageActivity.filter(activity => activity.id !== activityId);
+      
+      //save the updated activity data to localStorage
+      localStorage.setItem('activityData', JSON.stringify(updatedActivities));
       
       
       //update the UI
-      setActivityData(activityToDelete.filter(activity => activity.childId === childId));
+      setActivityData(updatedActivities.filter(activity => activity.childId === childId));
+      
       setDeletingTaskId(null);
       alert('Activity deleted successfully!');
-      router.refresh();
     }
   };
 
