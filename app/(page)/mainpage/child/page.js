@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 
-
 const colorOptions = [
   '#FFB4B4', '#FFD1B4', '#FFE0B4', '#D4FFB4', '#B4FFF9', '#D4B4FF'
 ];
