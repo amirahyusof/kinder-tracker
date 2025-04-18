@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import DeleteBanner from '@/app/components/deleteBanner';
 
 
 export default function ListActivity({ activityData, setActivityData, childData}) {
   const router = useRouter();
   const [deleteTaskId, setDeletingTaskId] = useState(null);
+  const [deleteTask, setDeleteTask] = useState(false);
 
   const handleEditTask = (childId, activityId) => {
     const parsedChildId = parseInt(childId);
@@ -28,10 +30,13 @@ export default function ListActivity({ activityData, setActivityData, childData}
       
       //update the UI
       setActivityData(activityToDelete.filter(activity => activity.childId === childId));
+      
       setDeletingTaskId(null);
-      alert('Activity deleted successfully!');
-      router.refresh();
-    }
+      setDeleteTask(true);
+      setTimeout(() => {
+        router.push("/mainpage/listActivity");
+      }, 5000)
+    };
   };
 
   const getStatusDisplay = (status) => {
@@ -56,6 +61,12 @@ export default function ListActivity({ activityData, setActivityData, childData}
 
   return (
     <section className='mt-6 space-y-4'>
+      {deleteTask && (
+        <DeleteBanner
+          message="Activity deleted successfully!"
+          onClose={() => setSuccess(false)}
+        />
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {/* Display each activity card */}
         { activityData.map((data) => {

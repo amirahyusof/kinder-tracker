@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import DeleteBanner from "@/app/components/deleteBanner";
+import { useRouter } from "next/navigation";
 
 export default function ParentJournalPage() {
+  const router = useRouter();
   const [childName, setChildName] = useState('');
   const [journals, setJournals] = useState([]);
   const [children, setChildren] = useState([]);
   const [selectedChildId, setSelectedChildId] = useState("all");
   const [editingId, setEditingId] = useState(null);
   const [editedText, setEditedText] = useState("");
+  const [deleteJournal, setDeleteJournal] = useState(false);
 
   useEffect(() => {
     const childData = JSON.parse(localStorage.getItem("childrenData")) || [];
@@ -36,6 +40,11 @@ export default function ParentJournalPage() {
       setJournals(updated);
       localStorage.setItem("parentJournals", JSON.stringify(updated));
     }
+
+    setDeleteJournal(true);
+    setTimeout(() => {
+      router.refresh();
+    }, 5000);
   };
 
   const handleEdit = (id, journal) => {
@@ -60,6 +69,13 @@ export default function ParentJournalPage() {
 
   return (
     <section className="p-6 max-w-4xl mx-auto">
+      {deleteTask && (
+        <DeleteBanner
+          message="Activity deleted successfully!"
+          onClose={() => setSuccess(false)}
+        />
+      )}
+
       <h1 className="text-2xl font-semibold text-gray-800 mb-4">📔 Parent Journal</h1>
 
       {/* Filter */}
