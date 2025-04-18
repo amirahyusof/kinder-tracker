@@ -3,9 +3,11 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
+import FullScreenError from '@/app/components/error';
 
 const colorOptions = [
-  '#FFB4B4', '#FFD1B4', '#FFE0B4', '#D4FFB4', '#B4FFF9', '#D4B4FF'
+  '#FFB4B4', '#FFD1B4', '#FFE0B4', '#D4FFB4', '#B4FFF9', 
+  '#D4B4FF', '#E4FBFF', '#A6B37D','#B99470' , '#8E1616'
 ];
 
 function getInitialsName(name){
@@ -18,6 +20,7 @@ function getInitialsName(name){
 
 
 export default function CreateChildProfile() {
+  const router = useRouter();
   const [childData, setChildData] = useState({
     name: "", 
     age: "", 
@@ -28,7 +31,7 @@ export default function CreateChildProfile() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMaxReached, setIsMaxReached] = useState(false);
   const [success, setSuccess] = useState(false);
-  const router = useRouter();
+  
 
   useEffect(() => {
     //check existing children count from local storage
@@ -79,7 +82,7 @@ export default function CreateChildProfile() {
     }, 5000);
   };
 
-  if (error) return <div className="text-center p-6">{error}</div>;
+  if (error) return <FullScreenError message={error} />;
 
   
   return (
