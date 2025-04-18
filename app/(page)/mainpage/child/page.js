@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 
-
 const colorOptions = [
   '#FFB4B4', '#FFD1B4', '#FFE0B4', '#D4FFB4', '#B4FFF9', '#D4B4FF'
 ];
@@ -28,6 +27,7 @@ export default function CreateChildProfile() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMaxReached, setIsMaxReached] = useState(false);
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -73,8 +73,10 @@ export default function CreateChildProfile() {
 
     //save new child profile to local storage
     localStorage.setItem('childrenData', JSON.stringify(updatedChildren));
-    alert('Successfully created child profile!');
-    router.push("/mainpage");
+    setSuccess(true);
+    setTimeout(() => {
+      router.push("/mainpage");
+    }, 5000);
   };
 
   if (error) return <div className="text-center p-6">{error}</div>;
@@ -82,6 +84,12 @@ export default function CreateChildProfile() {
   
   return (
     <section className="w-full p-8 mb-20 dark:bg-gray-900 transition-colors duration-300">
+      {success && (
+        <SuccessBanner
+          message="Child profile created successfully!"
+          onClose={() => setSuccess(false)}
+        />
+      )}
       <div className="flex flex-col">
         <div className="mt-2">
           <h1 className="text-xl md:text-2xl font-bold">Add Child Profile</h1>
@@ -98,7 +106,6 @@ export default function CreateChildProfile() {
               </Link>
             </button>
           </div>
-          
           ) : (
           <div className="mt-4 w-full bg-white shrink-0 rounded-2xl shadow-2xl p-6">
             <form onSubmit={handleAddChildProfile}>

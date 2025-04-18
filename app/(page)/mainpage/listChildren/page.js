@@ -3,16 +3,31 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import FullScreenLoader from "@/app/components/loader";
+import FullScreenError from "@/app/components/error";
 
 export default function ChildrenList() {
   const [childData, setChildData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("childrenData") || "[]");
-    console.log("Loaded Children Data:", data);
-    setChildData(data);
+    try {
+      const timer = setTimeout(() => {
+        const data = JSON.parse(localStorage.getItem("childrenData") || "[]");
+        console.log("Loaded Children Data:", data);
+        setChildData(data);
+        setLoading(false);
+      }, 5000); // Simulate a 5 second loading time
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+
+    } catch(err) {
+      console.error("Error loading children data:", err);
+      setError("Failed to load data. Please try again later.");
+      setLoading(false);
+    }
+    
   }, []);
 
   const handleDelete = () => {
@@ -20,6 +35,10 @@ export default function ChildrenList() {
     localStorage.setItem("childrenData", JSON.stringify(updated));
     setChildData(updated);
   };
+
+   if (error) return <FullScreenError message={error} />; // Show error message if there's an error
+
+   if (loading) return <FullScreenLoader />; // Show loader while loading data
 
   return (
     <main className="min-h-screen bg-[#FFF9CA] p-6 dark:bg-gray-900 transition-colors duration-300">

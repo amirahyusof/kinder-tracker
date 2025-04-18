@@ -1,9 +1,19 @@
 "use client";
 
 import React, { useState, useEffect} from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { 
+  useSearchParams, 
+  useRouter 
+} from 'next/navigation';
 import ReactConfetti from 'react-confetti';
-import { PartyPopper, CalendarIcon, PencilIcon, CheckCircleIcon } from 'lucide-react';
+import { 
+  PartyPopper, 
+  CalendarIcon, 
+  PencilIcon, 
+  CheckCircleIcon 
+} from 'lucide-react';
+import SuccessBanner from '@/app/components/successBanner';
+
 
 export default function EditActivity() {
   const router = useRouter();
@@ -27,6 +37,7 @@ export default function EditActivity() {
   const [showRewardAlert, setShowRewardAlert] = useState(false);
   const [previousStatus, setPreviousStatus] = useState('');
   const [journalEntry, setJournalEntry] = useState("");
+  const [success, setSuccess] = useState(false)
 
   // Fetch activity from localStorage
   useEffect(() => {
@@ -98,8 +109,7 @@ export default function EditActivity() {
         setTimeout(() => setShowRewardAlert(false), 10000);
       }
 
-      alert('Activity updated successfully!');
-
+      setSuccess(true);
       setTimeout(() => {
         router.push("/mainpage/listActivity");
       }, updatedActivity.status === 'done' ? 6000 : 1000);
@@ -141,6 +151,13 @@ export default function EditActivity() {
             </div>
           </div>
         </div>
+      )}
+
+      {success && (
+        <SuccessBanner
+          message="Activity updated successfully!"
+          onClose={() => setSuccess(false)}
+        />
       )}
 
       <h2 className="text-xl font-semibold text-gray-600 mb-4">✍️ Edit Activity</h2>

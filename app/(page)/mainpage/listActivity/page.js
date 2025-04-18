@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import AllActivity from '@/app/interface/activity/AllChildrenActivity';
+import FullScreenLoader from '@/app/components/loader';
+import FullScreenError from '@/app/components/error';
 
 export default function ChildrenActivities() {
   const router = useRouter();
@@ -14,34 +16,39 @@ export default function ChildrenActivities() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    try {
+      const timer = setTimeout(() => {
+        //parse child Id as number
+        const parsedChildId = parseInt(childId);
   
-      //parse child Id as number
-      const parsedChildId = parseInt(childId);
+        //get child profiles from local storage
+        const childData = JSON.parse(localStorage.getItem('childrenData') || '[]');
+        setChild(childData);
+        console.log('Child Data in localStorage:', childData);
+  
+        //get list of child's activities from local storage
+        const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
+        setChildActivities(storageActivity);
+        console.log('Activity Data of this child:', storageActivity);
+        
+        console.log("childId from URL:", childId);
+        console.log("Parsed childId:", parsedChildId);
+  
+        setLoading(false);
+      }, 5000); // Simulate a 5 second loading time
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
 
-      //get child profiles from local storage
-      const childData = JSON.parse(localStorage.getItem('childrenData') || '[]');
-      setChild(childData);
-      console.log('Child Data in localStorage:', childData);
-
-      //get list of child's activities from local storage
-      const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
-      setChildActivities(storageActivity);
-      console.log('Activity Data of this child:', storageActivity);
-      
-      console.log("childId from URL:", childId);
-      console.log("Parsed childId:", parsedChildId);
-
+    } catch (err) {
+      console.error('Error fetching child activities:', err);
+      setError('Failed to fetch child activities. Please try again later.');
       setLoading(false);
+    }
   }, []);
 
-  if (error) {
-    return <div className="text-red-500 text-center p-6" >Error: {error}</div>;
-  }
-
-  if (loading) {
-    return <div className="text-center p-6">Loading...</div>;
-  }
-
+  if (error) return <FullScreenError message={error} /> ;
+  
+  if (loading) return <FullScreenLoader /> ;
+  
   return (
     <section className='p-6 min-h-screen bg-[#FFF9CA] dark:bg-gray-900 transition-colors duration-300'>
       <div className='flex items-center justify-between'>

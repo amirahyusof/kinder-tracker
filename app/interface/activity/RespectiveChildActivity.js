@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import DeleteBanner from '@/app/components/deleteBanner';
 
 
 export default function ListActivity({ activityData, setActivityData, childId}) {
   const router = useRouter();
   const [deleteTaskId, setDeletingTaskId] = useState(null);
+  const [deleteTask, setDeleteTask] = useState(false);
 
   const handleEditTask = (childId, activityId) => {
     const parsedChildId = parseInt(childId);
@@ -22,15 +24,22 @@ export default function ListActivity({ activityData, setActivityData, childId}) 
 
       //get acyivity data from localStorage
       const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
-      const activityToDelete = storageActivity.filter(activity => activity.id !== activityId);
-      localStorage.setItem('activityData', JSON.stringify(activityToDelete));
+      //remove the one with matching id
+      const updatedActivities = storageActivity.filter(activity => activity.id !== activityId);
+      
+      //save the updated activity data to localStorage
+      localStorage.setItem('activityData', JSON.stringify(updatedActivities));
       
       
       //update the UI
-      setActivityData(activityToDelete.filter(activity => activity.childId === childId));
+      setActivityData(updatedActivities.filter(activity => activity.childId === childId));
+      
       setDeletingTaskId(null);
+      setDeleteTask(true);
+      setTimeout(() => {
+        router.push(`/mainpage/child/respectiveActivity?childId=${childId}`);
+      }, 50000)
       alert('Activity deleted successfully!');
-      router.refresh();
     }
   };
 
@@ -39,6 +48,12 @@ export default function ListActivity({ activityData, setActivityData, childId}) 
 
   return (
     <section className='mt-6 space-y-4'>
+      {deleteTask && (
+        <DeleteBanner
+          message="Activity deleted successfully!"
+          onClose={() => setDeleteTask(false)}
+        />
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {uniqueActivities.map((activity, index) => (
           <div key={`${activity.id}-${index}`} className="cursor-pointer border-2 border-[#FFDEB4] rounded-2xl">

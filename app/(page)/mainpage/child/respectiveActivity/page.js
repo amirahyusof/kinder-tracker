@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ListActivity from '@/app/interface/activity/RespectiveChildActivity';
-import Image from 'next/image';
+import FullScreenLoader from '@/app/components/loader';
+import FullScreenError from '@/app/components/error';
+
 
 export default function ActivityRespectiveChild() {
   const router = useRouter();
@@ -15,7 +17,8 @@ export default function ActivityRespectiveChild() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if(!childId) return;
+    const timer = setTimeout(() => {
+      if(!childId) return;
 
     try {
       //parse child Id as number
@@ -43,15 +46,15 @@ export default function ActivityRespectiveChild() {
       setLoading(false);
     }
     
+    }, 5000);
+    return () => clearTimeout(timer); // Cleanup the timer on unmount
+  
   }, [childId]);
 
-  if (error) {
-    return <div className="text-red-500 text-center p-6" >Error: {error}</div>;
-  }
+  if (error) return <FullScreenError message={error} />; // Show error message if there's an error
 
-  if (loading) {
-    return <div className="text-center p-6">Loading...</div>;
-  }
+  if (loading) return <FullScreenLoader />; // Show loader while loading data
+  
 
   return (
     <section className='p-6 min-h-screen bg-[#FFF9CA] dark:bg-gray-900 transition-colors duration-300'>
@@ -76,21 +79,14 @@ export default function ActivityRespectiveChild() {
         </div>
 
 
-        {/* Buttons for profile & adding task */}
-        <div className='flex flex-row gap-2'>
-          {/* Need to fix */}
-          <button 
-            onClick={() => router.push(`/mainpage/profile/parent/child?childId=${childId}`)}
-            className='place-items-center mt-4  bg-[#FF9494] text-white p-4 rounded-full hover:bg-[#FFD1D1] transition'
-          >
-            View
-          </button>
-
+        {/* Buttons for adding activity */}
+        <div className='flex items-center'>
           <button 
             onClick={() => router.push(`/mainpage/activities/create?childId=${childId}`)}
-            className='place-items-center mt-4  bg-[#FF9494] text-white p-4 rounded-full hover:bg-[#FFD1D1] transition'
+            className='flex items-center justify-center w-10 h-10 bg-[#FF9494] text-white font-bold text-2xl rounded-full 
+            hover:bg-[#FFD1D1] transition-transform duration-200 ease-in-out hover:scale-110'
           >
-            <span className='text-l'>+</span>Task
+            +
           </button>
         </div>
       </div>
