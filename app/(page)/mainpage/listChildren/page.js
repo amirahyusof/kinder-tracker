@@ -10,6 +10,7 @@ export default function ChildrenList() {
   const [childData, setChildData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleteChild, setDeleteChild] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,10 +31,20 @@ export default function ChildrenList() {
     
   }, []);
 
-  const handleDelete = () => {
+  const handleEditChild = (childId) => {
+    const parsedChildId = parseInt(childId);
+    router.push(`/mainpage/child/view?childId=${parsedChildId}`);
+  };
+
+  const handleDeleteChild = () => {
     const updated = childData.filter((child) => child.id !== id);
     localStorage.setItem("childrenData", JSON.stringify(updated));
     setChildData(updated);
+
+    setDeleteChild(false);
+    setTimeout(() => {
+      router.push("/mainpage/listChildren");
+    }, 5000); // Redirect after 5 seconds
   };
 
    if (error) return <FullScreenError message={error} />; // Show error message if there's an error
@@ -42,8 +53,14 @@ export default function ChildrenList() {
 
   return (
     <main className="min-h-screen bg-[#FFF9CA] p-6 dark:bg-gray-900 transition-colors duration-300">
-      <h1 className="text-3xl font-bold text-[#FF9494] text-center mb-6">🧒🏻 Your Children</h1>
+      {deleteTask && (
+        <DeleteBanner
+          message="Activity deleted successfully!"
+          onClose={() => setSuccess(false)}
+        />
+      )}
 
+      <h1 className="text-3xl font-bold text-[#FF9494] text-center mb-6">🧒🏻 Your Children</h1>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {childData.length === 0 ? (
           <p className="text-center text-gray-600 col-span-full">No children added yet.</p>
@@ -65,13 +82,13 @@ export default function ChildrenList() {
               
 
               <div className="flex justify-end gap-2 ml-auto">
-                <Link href={`/edit-child/${child.id}`}>
-                  <button className="px-3 py-1 rounded-md bg-[#FFB4B4] text-white hover:bg-[#FFB4B4]/80">
-                    Edit
-                  </button>
-                </Link>
+                <button 
+                  onClick={() => handleEditChild(child.id)}
+                  className="px-3 py-1 rounded-md bg-[#FFB4B4] text-white hover:bg-[#FFB4B4]/80">
+                  View
+                </button>
                 <button
-                  onClick={() => handleDelete(child.id)}
+                  onClick={() => handleDeleteChild(child.id)}
                   className="px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-600/80"
                 >
                   Delete
