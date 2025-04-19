@@ -79,7 +79,7 @@ export default function CreateActivity() {
             <input
               id="activity"
               type="text"
-              placeholder="e.g., 🎨 Drawing"
+              placeholder="e.g: 🎨Drawing"
               className="input-sm flex-1 border-none bg-gray-100 px-3"
               value={activityData.activity}
               onChange={(e) => setActivityData({...activityData, activity:e.target.value})}

@@ -69,10 +69,10 @@ export default function ParentJournalPage() {
 
   return (
     <section className="p-6 max-w-4xl mx-auto">
-      {deleteTask && (
+      {deleteJournal && (
         <DeleteBanner
-          message="Activity deleted successfully!"
-          onClose={() => setSuccess(false)}
+          message="Journal entry deleted successfully!"
+          onClose={() => setDeleteJournal(false)} 
         />
       )}
 
