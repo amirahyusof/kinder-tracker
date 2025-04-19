@@ -62,7 +62,7 @@ export default function CreateActivity() {
     <section className="bg-yellow-50 p-6 rounded-2xl shadow-lg max-w-lg mx-auto mt-10">
       {success && (
         <SuccessBanner
-          message="Activity created successfully!"
+          message="Successfully creating activity!"
           onClose={() => setSuccess(false)}
         />
       )}
@@ -71,7 +71,7 @@ export default function CreateActivity() {
       <form onSubmit={handleSubmitActivity} className="w-full p-4">
         {/* Get the activity name */}
         <div className="form-control mb-4">
-          <label htmlFor="activity" className="label">
+          <label className="label">
             <span className="block text-gray-700 font-medium">🎗 Activity</span>
           </label>
           <div className='flex items-center border rounded-lg overflow-hidden'>
@@ -79,7 +79,7 @@ export default function CreateActivity() {
             <input
               id="activity"
               type="text"
-              placeholder="e.g., 🎨 Drawing"
+              placeholder="e.g: 🎨Drawing"
               className="input-sm flex-1 border-none bg-gray-100 px-3"
               value={activityData.activity}
               onChange={(e) => setActivityData({...activityData, activity:e.target.value})}
@@ -90,13 +90,13 @@ export default function CreateActivity() {
 
         {/* Get the activity description */}
         <div className="form-control mb-4">
-          <label htmlFor="activityDescription" className="label">
+          <label className="label">
             <span className="block text-gray-700 font-medium">🧠 Description</span>
           </label>
           <textarea
             id="activityDescription"
             type="text"
-            placeholder="Add a fun description..."
+            placeholder="Can write date and a fun description..."
             className="input-md border-none bg-gray-100 p-3 rounded-lg"
             value={activityData.description}
             onChange={(e) => setActivityData({...activityData, description:e.target.value})}
@@ -106,7 +106,7 @@ export default function CreateActivity() {
 
         {/* Get the due date */}
         <div className="form-control mb-4">
-          <label htmlFor="date" className="label">
+          <label className="label">
             <span className='block text-gray-700 font-medium'>⏰ Date</span>
           </label>
           <div className='flex items-center border rounded-lg overflow-hidden'>

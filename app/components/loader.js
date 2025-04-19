@@ -19,7 +19,7 @@ export default function FullScreenLoader() {
   }, []);
 
   return (
-    <div className="fixed inset-0 p-6 min-h-screen bg-[#FFF9CA] z-[9999] flex flex-col items-center justify-center text-[#FF9494]">
+    <div className="inset-0 p-6 min-h-screen bg-[#FFF9CA] z-[9999] flex flex-col items-center justify-center text-[#FF9494]">
       <Player
         className="mt-4"
         autoplay

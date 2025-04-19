@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import FullScreenLoader from "@/app/components/loader";
 import FullScreenError from "@/app/components/error";
+import DeleteBanner from "@/app/components/deleteBanner";
 
 export default function ChildrenList() {
   const [childData, setChildData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleteChild, setDeleteChild] = useState(false);
+  const [deleteChildId, setDeletingChildId] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,10 +32,29 @@ export default function ChildrenList() {
     
   }, []);
 
-  const handleDelete = () => {
-    const updated = childData.filter((child) => child.id !== id);
-    localStorage.setItem("childrenData", JSON.stringify(updated));
-    setChildData(updated);
+  const handleEditChild = (childId) => {
+    const parsedChildId = parseInt(childId);
+    router.push(`/mainpage/child/edit?childId=${parsedChildId}`);
+  };
+
+  const handleViewActivity = (childId) => {
+    const parsedChildId = parseInt(childId);
+    router.push(`/mainpage/child/respectiveActivity?childId=${parsedChildId}`);
+  };
+
+  const handleDeleteChild = (childId) => {
+    setDeletingChildId(childId);
+    const dataChild = JSON.parse(localStorage.getItem("childrenData") || "[]");
+    const childToDelete = dataChild.filter((child) => child.id !== childId);
+    
+    localStorage.setItem("childrenData", JSON.stringify(childToDelete));
+    setChildData(childToDelete);
+
+    setDeletingChildId(null);
+    setDeleteChild(true);
+    setTimeout(() => {
+      router.refresh()
+    }, 2000); // Show success message for 2 seconds
   };
 
    if (error) return <FullScreenError message={error} />; // Show error message if there's an error
@@ -42,8 +63,14 @@ export default function ChildrenList() {
 
   return (
     <main className="min-h-screen bg-[#FFF9CA] p-6 dark:bg-gray-900 transition-colors duration-300">
-      <h1 className="text-3xl font-bold text-[#FF9494] text-center mb-6">🧒🏻 Your Children</h1>
+      {deleteChild && (
+        <DeleteBanner
+          message="Child's profile deleted successfully!"
+          onClose={() => setDeleteChild(false)}
+        />
+      )}
 
+      <h1 className="text-3xl font-bold text-[#FF9494] text-center mb-6">🧒🏻 Your Children</h1>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {childData.length === 0 ? (
           <p className="text-center text-gray-600 col-span-full">No children added yet.</p>
@@ -51,7 +78,8 @@ export default function ChildrenList() {
           childData.map((child) => (
             <div key={child.id} className="bg-white cursor-pointer rounded-2xl shadow-md p-4 flex flex-row items-center gap-3 transition hover:scale-105 duration-200">
               <div className="w-20 h-20 rounded-full flex items-center justify-center border-4 border-gray-400"
-                style={{ backgroundColor: child.avatar.bgcolor }} 
+                style={{ backgroundColor: child.avatar.bgcolor }}
+                onClick={() => handleViewActivity(child.id)} 
               >
                 <span className='text-white text-4xl font-bold'>
                   {child.avatar.initials}
@@ -65,16 +93,20 @@ export default function ChildrenList() {
               
 
               <div className="flex justify-end gap-2 ml-auto">
-                <Link href={`/edit-child/${child.id}`}>
-                  <button className="px-3 py-1 rounded-md bg-[#FFB4B4] text-white hover:bg-[#FFB4B4]/80">
-                    Edit
-                  </button>
-                </Link>
+                <button 
+                  onClick={() => handleEditChild(child.id)}
+                  className="px-3 py-1 rounded-md bg-[#FFB4B4] text-white hover:bg-[#FFB4B4]/80">
+                  Edit
+                </button>
                 <button
-                  onClick={() => handleDelete(child.id)}
-                  className="px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-600/80"
+                  type="button"
+                  onClick={() => handleDeleteChild(child.id)}
+                  className={`px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-600/80
+                    ${deleteChildId === child.id ? "opacity-50 cursor-not-allowed" : ""}
+                    `}
+                    disabled={deleteChildId === child.id}
                 >
-                  Delete
+                  {deleteChildId === child.id ? "Deleting..." : "Delete"}
                 </button>
               </div>
             </div>

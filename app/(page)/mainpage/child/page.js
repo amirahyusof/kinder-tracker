@@ -3,9 +3,12 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
+import FullScreenError from '@/app/components/error';
+import SuccessBanner from '@/app/components/successBanner';
 
 const colorOptions = [
-  '#FFB4B4', '#FFD1B4', '#FFE0B4', '#D4FFB4', '#B4FFF9', '#D4B4FF'
+  '#FFB4B4', '#FFD1B4', '#FFE0B4', '#D4FFB4', '#B4FFF9', 
+  '#D4B4FF', '#E4FBFF', '#A6B37D','#B99470' , '#8E1616'
 ];
 
 function getInitialsName(name){
@@ -18,17 +21,18 @@ function getInitialsName(name){
 
 
 export default function CreateChildProfile() {
+  const router = useRouter();
   const [childData, setChildData] = useState({
     name: "", 
     age: "", 
-    color: colorOptions[0],
+    bgcolor: colorOptions[0],
     
   });
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMaxReached, setIsMaxReached] = useState(false);
   const [success, setSuccess] = useState(false);
-  const router = useRouter();
+  
 
   useEffect(() => {
     //check existing children count from local storage
@@ -42,7 +46,7 @@ export default function CreateChildProfile() {
     setIsSubmitting(true);
 
     // Validate inputs
-    if (!childData.name || !childData.age || !childData.color) {
+    if (!childData.name || !childData.age || !childData.bgcolor) {
       setError('Please fill out all required fields and select a background color');
       setIsSubmitting(false);
       return;
@@ -65,7 +69,7 @@ export default function CreateChildProfile() {
       avatar: {
         type: "initials",
         initials: getInitialsName(childData.name),
-        bgcolor: childData.color,
+        bgcolor: childData.bgcolor,
       }
     };
 
@@ -79,7 +83,7 @@ export default function CreateChildProfile() {
     }, 5000);
   };
 
-  if (error) return <div className="text-center p-6">{error}</div>;
+  if (error) return <FullScreenError message={error} />;
 
   
   return (
@@ -150,12 +154,12 @@ export default function CreateChildProfile() {
                     <div  
                       key={color}
                       className={`cursor-pointer w-12 h-12 rounded-full border-4 ${
-                        childData.color === color
+                        childData.bgcolor === color
                           ? 'border-pink-400 scale-110' 
                           : 'border-transparent'
                       }`}
                       style={{ backgroundColor: color }}
-                      onClick={() => setChildData({...childData, color})}
+                      onClick={() => setChildData({...childData, bgcolor: color})}
                     >
                     </div>
                   ))}
@@ -167,7 +171,7 @@ export default function CreateChildProfile() {
                   <label>Avatar Preview</label>
                   <div
                     className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl shadow"
-                    style={{ backgroundColor: childData.color }}        
+                    style={{ backgroundColor: childData.bgcolor }}        
                   >
                     {getInitialsName(childData.name)}
                   </div>
@@ -179,14 +183,18 @@ export default function CreateChildProfile() {
                   type="submit" 
                   className={`
                     btn btn-md border-pink-400 border-2 bg-[#FFB4B4] hover:border-[#FFDEB4] hover:bg-[#FFB4B4]/80 text-white
-                    ${isSubmitting ? '...': 'Adding'}
+                    ${isSubmitting ? 'bg-pink-400': ''}
+                    disabled:bg-[#FFE0E0] 
+                    disabled:border-[#FFB4B4] 
+                    disabled:text-gray-400 
+                    disabled:cursor-not-allowed
                     `}
                   disabled = {isSubmitting || isMaxReached}
                 >
                   { isSubmitting ? 'Adding...' : 'Add Child'}
                 </button>
 
-                <button type="button" className='btn btn-md btn-neutral text-white'>
+                <button type="button" className='btn btn-md bg-gray-500 text-white'>
                   <Link href={"/mainpage"}>
                     Cancel
                   </Link>

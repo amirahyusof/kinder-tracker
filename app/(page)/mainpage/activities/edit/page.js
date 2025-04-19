@@ -13,6 +13,8 @@ import {
   CheckCircleIcon 
 } from 'lucide-react';
 import SuccessBanner from '@/app/components/successBanner';
+import FullScreenLoader from '@/app/components/loader';
+import FullScreenError from '@/app/components/error';
 
 
 export default function EditActivity() {
@@ -41,25 +43,32 @@ export default function EditActivity() {
 
   // Fetch activity from localStorage
   useEffect(() => {
-    const fetchActivity = () => {
-      const stored = localStorage.getItem('activityData');
-      const activityList = stored ? JSON.parse(stored) : [];
+    try {
+      const timer = setTimeout(() => {
 
-      const activity = activityList.find(
-        (act) => act.id.toString() === activityId && act.childId.toString() === childId
-      );
-
-      if (activity) {
-        setUpdatedActivity(activity);
-        setPreviousStatus(activity.status);
-      } else {
-        setError("Activity not found.");
-      }
-
-      setLoading(false);
-    };
-
-    fetchActivity();
+        const stored = localStorage.getItem('activityData');
+        const activityList = stored ? JSON.parse(stored) : [];
+  
+        const activity = activityList.find(
+          (act) => act.id.toString() === activityId && act.childId.toString() === childId
+        );
+  
+        if (activity) {
+          setUpdatedActivity(activity);
+          setPreviousStatus(activity.status);
+        } else {
+          setError("Activity not found.");
+        }
+  
+        setLoading(false);
+      }, 5000); // Simulate a 5 second loading time
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+      
+      } catch (err) {
+        console.error('Error fetching activity:', err);
+        setError('Failed to fetch activity. Please try again later.');
+        setLoading(false);
+    }
   }, [childId, activityId]);
 
   const handleSubmit = (e) => {
@@ -107,26 +116,27 @@ export default function EditActivity() {
 
         setTimeout(() => setShowConfetti(false), 5000);
         setTimeout(() => setShowRewardAlert(false), 10000);
+      } else {
+        setSuccess(true);
       }
 
-      setSuccess(true);
       setTimeout(() => {
         router.push("/mainpage/listActivity");
       }, updatedActivity.status === 'done' ? 6000 : 1000);
+    
     } catch (error) {
       console.error('Error updating activity:', error);
       setError("Failed to update activity");
-    } finally {
       setIsEditing(false);
-    }
+    };
   };
 
   const handleCancel = () => {
     router.push("/mainpage/listActivity");
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (loading) return <FullScreenLoader />;
+  if (error) return <FullScreenError message={error} />;
 
   return (
     <section className="bg-yellow-50 p-6 rounded-2xl shadow-lg max-w-lg mx-auto">
@@ -155,7 +165,7 @@ export default function EditActivity() {
 
       {success && (
         <SuccessBanner
-          message="Activity updated successfully!"
+          message="Successfully editing the activity!"
           onClose={() => setSuccess(false)}
         />
       )}
@@ -259,7 +269,7 @@ export default function EditActivity() {
               ${ isEditing ? 'bg-green-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-500'}`}
             disabled={isEditing}
           >
-            {isEditing ? 'Editing...' : 'Save'}
+            {isEditing ? 'Saving...' : 'Save'}
           </button>
 
           <button

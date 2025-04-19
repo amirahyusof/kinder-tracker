@@ -13,34 +13,31 @@ export default function ListActivity({ activityData, setActivityData, childId}) 
 
   const handleEditTask = (childId, activityId) => {
     const parsedChildId = parseInt(childId);
-    router.push(`/mainpage/activities/edit?childId=${childId}&activityId=${activityId}`);
+    router.push(`/mainpage/activities/edit?childId=${parsedChildId}&activityId=${activityId}`);
   };
 
   const handleDeleteTask = (activityId) => {
-    const confirmDelete = window.confirm('Are you sure want to delete this activity?');
+    setDeletingTaskId(activityId);
 
-    if (confirmDelete) {
-      setDeletingTaskId(activityId);
-
-      //get acyivity data from localStorage
-      const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
-      //remove the one with matching id
-      const updatedActivities = storageActivity.filter(activity => activity.id !== activityId);
-      
-      //save the updated activity data to localStorage
-      localStorage.setItem('activityData', JSON.stringify(updatedActivities));
-      
-      
-      //update the UI
-      setActivityData(updatedActivities.filter(activity => activity.childId === childId));
-      
-      setDeletingTaskId(null);
-      setDeleteTask(true);
-      setTimeout(() => {
-        router.push(`/mainpage/child/respectiveActivity?childId=${childId}`);
-      }, 50000)
-      alert('Activity deleted successfully!');
-    }
+    //get activity data from localStorage
+    const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
+    //remove the one with matching id
+    const activityToDelete = storageActivity.filter(activity => activity.id !== activityId);
+    
+    //save the updated activity data to localStorage
+    localStorage.setItem('activityData', JSON.stringify(activityToDelete));
+    
+    
+    //update the UI
+    setActivityData(activityToDelete);
+    
+    setDeletingTaskId(null);
+    setDeleteTask(true);
+    setTimeout(() => {
+      router.refresh();
+    }, 3000)
+    
+    
   };
 
   const uniqueActivities = Array.from(new Map(activityData.map(activity => [activity.id, activity])).values());
@@ -57,13 +54,13 @@ export default function ListActivity({ activityData, setActivityData, childId}) 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {uniqueActivities.map((activity, index) => (
           <div key={`${activity.id}-${index}`} className="cursor-pointer border-2 border-[#FFDEB4] rounded-2xl">
-            <div className=" bg-white shadow-md rounded-2xl px-2 py-4 transition hover:scale-105 duration-200">
+            <div className=" bg-white shadow-md rounded-2xl p-4 transition hover:scale-105 duration-200">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-800 capitalize">
                   Activity: <span className='capitalize'>{activity.activity}</span>
                 </h3>
                 <span
-                  className={`px-2 py-1 text-xs font-medium rounded ${
+                  className={`px-2 py-1 text-xs capitalize font-medium rounded ${
                     activity.status === "done"
                     ? "bg-green-100 text-green-600"
                     : activity.status === "in-progress"

@@ -11,8 +11,8 @@ const Player = dynamic(
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen dark:bg-gray-900 text-[#FFB4B4] dark:text-white bg-[#FFF9CA] transition-colors duration-300 z-50">
-      <div className="w-60 h-60">
+    <div className="w-full flex flex-col items-center justify-center h-screen dark:bg-gray-900 text-[#FFB4B4] dark:text-white bg-[#FFF9CA] transition-colors duration-300 z-50">
+      <div className="mb-4">
         <Player
           autoplay
           loop

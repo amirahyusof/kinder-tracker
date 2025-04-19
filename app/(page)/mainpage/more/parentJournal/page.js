@@ -35,16 +35,14 @@ export default function ParentJournalPage() {
   };
 
   const handleDelete = (id) => {
-    if (confirm("Delete this journal entry?")) {
-      const updated = journals.filter((j) => j.id !== id);
-      setJournals(updated);
-      localStorage.setItem("parentJournals", JSON.stringify(updated));
-    }
-
+    const updated = journals.filter((j) => j.id !== id);
+    setJournals(updated);
+    localStorage.setItem("parentJournals", JSON.stringify(updated));
+    
     setDeleteJournal(true);
     setTimeout(() => {
       router.refresh();
-    }, 5000);
+    }, 3000);
   };
 
   const handleEdit = (id, journal) => {
@@ -69,10 +67,10 @@ export default function ParentJournalPage() {
 
   return (
     <section className="p-6 max-w-4xl mx-auto">
-      {deleteTask && (
+      {deleteJournal && (
         <DeleteBanner
-          message="Activity deleted successfully!"
-          onClose={() => setSuccess(false)}
+          message="Successfully deleting journal entry!"
+          onClose={() => setDeleteJournal(false)} 
         />
       )}
 
@@ -105,7 +103,7 @@ export default function ParentJournalPage() {
             .map((entry) => (
               <li
                 key={entry.id}
-                className="px-4 py-2 bg-white rounded-3xl shadow-md border border-yellow-200"
+                className="px-4 py-6 bg-white rounded-3xl shadow-md border border-yellow-200"
               >
                 <div className="flex justify-between">
                   <h3 className="text-lg font-bold capitalize text-yellow-700 mb-1">
