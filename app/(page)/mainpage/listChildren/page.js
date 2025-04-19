@@ -47,6 +47,9 @@ export default function ChildrenList() {
 
     setDeletingChildId(null);
     setDeleteChild(true);
+    setTimeout(() => {
+      router.refresh()
+    }, 2000); // Show success message for 2 seconds
   };
 
    if (error) return <FullScreenError message={error} />; // Show error message if there's an error
@@ -57,8 +60,8 @@ export default function ChildrenList() {
     <main className="min-h-screen bg-[#FFF9CA] p-6 dark:bg-gray-900 transition-colors duration-300">
       {deleteChild && (
         <DeleteBanner
-          message="Activity deleted successfully!"
-          onClose={() => setSuccess(false)}
+          message="Child's profile deleted successfully!"
+          onClose={() => setDeleteChild(false)}
         />
       )}
 
