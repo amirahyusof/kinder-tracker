@@ -54,7 +54,7 @@ export default function ChildrenList() {
     setDeleteChild(true);
     setTimeout(() => {
       router.refresh()
-    }, 2000); // Show success message for 2 seconds
+    }, 1000); // Show success message for 1 seconds
   };
 
    if (error) return <FullScreenError message={error} />; // Show error message if there's an error
