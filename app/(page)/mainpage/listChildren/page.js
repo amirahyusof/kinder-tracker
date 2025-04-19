@@ -37,6 +37,11 @@ export default function ChildrenList() {
     router.push(`/mainpage/child/edit?childId=${parsedChildId}`);
   };
 
+  const handleViewActivity = (childId) => {
+    const parsedChildId = parseInt(childId);
+    router.push(`/mainpage/child/respectiveActivity?childId=${parsedChildId}`);
+  };
+
   const handleDeleteChild = (childId) => {
     setDeletingChildId(childId);
     const dataChild = JSON.parse(localStorage.getItem("childrenData") || "[]");
@@ -73,7 +78,8 @@ export default function ChildrenList() {
           childData.map((child) => (
             <div key={child.id} className="bg-white cursor-pointer rounded-2xl shadow-md p-4 flex flex-row items-center gap-3 transition hover:scale-105 duration-200">
               <div className="w-20 h-20 rounded-full flex items-center justify-center border-4 border-gray-400"
-                style={{ backgroundColor: child.avatar.bgcolor }} 
+                style={{ backgroundColor: child.avatar.bgcolor }}
+                onClick={() => handleViewActivity(child.id)} 
               >
                 <span className='text-white text-4xl font-bold'>
                   {child.avatar.initials}

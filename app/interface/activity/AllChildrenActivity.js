@@ -17,26 +17,23 @@ export default function ListActivity({ activityData, setActivityData, childData}
   };
 
   const handleDeleteTask = (activityId) => {
-    const confirmDelete = window.confirm('Are you sure want to delete this activity?');
+    setDeletingTaskId(activityId);
 
-    if (confirmDelete) {
-      setDeletingTaskId(activityId);
-
-      //get activity data from localStorage
-      const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
-      const activityToDelete = storageActivity.filter(activity => activity.id !== activityId);
-      localStorage.setItem('activityData', JSON.stringify(activityToDelete));
-      
-      
-      //update the UI
-      setActivityData(activityToDelete);
-      
-      setDeletingTaskId(null);
-      setDeleteTask(true);
-      setTimeout(() => {
-        router.push("/mainpage/listActivity");
-      }, 5000)
-    };
+    //get activity data from localStorage
+    const storageActivity = JSON.parse(localStorage.getItem('activityData') || '[]');
+    const activityToDelete = storageActivity.filter(activity => activity.id !== activityId);
+    localStorage.setItem('activityData', JSON.stringify(activityToDelete));
+    
+    
+    //update the UI
+    setActivityData(activityToDelete);
+    
+    setDeletingTaskId(null);
+    setDeleteTask(true);
+    setTimeout(() => {
+      router.refresh();
+    }, 3000)
+  
   };
 
   const getStatusDisplay = (status) => {
@@ -64,7 +61,7 @@ export default function ListActivity({ activityData, setActivityData, childData}
       {deleteTask && (
         <DeleteBanner
           message="Activity deleted successfully!"
-          onClose={() => setSuccess(false)}
+          onClose={() => setDeleteTask(false)}
         />
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

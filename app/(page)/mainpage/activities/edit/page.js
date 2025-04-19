@@ -116,9 +116,10 @@ export default function EditActivity() {
 
         setTimeout(() => setShowConfetti(false), 5000);
         setTimeout(() => setShowRewardAlert(false), 10000);
+      } else {
+        setSuccess(true);
       }
 
-      setSuccess(true);
       setTimeout(() => {
         router.push("/mainpage/listActivity");
       }, updatedActivity.status === 'done' ? 6000 : 1000);
@@ -164,7 +165,7 @@ export default function EditActivity() {
 
       {success && (
         <SuccessBanner
-          message="Activity updated successfully!"
+          message="Successfully editing the activity!"
           onClose={() => setSuccess(false)}
         />
       )}
@@ -268,7 +269,7 @@ export default function EditActivity() {
               ${ isEditing ? 'bg-green-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-500'}`}
             disabled={isEditing}
           >
-            {isEditing ? 'Editing...' : 'Save'}
+            {isEditing ? 'Saving...' : 'Save'}
           </button>
 
           <button
