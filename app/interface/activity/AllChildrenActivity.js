@@ -29,7 +29,7 @@ export default function ListActivity({ activityData, setActivityData, childData}
       
       
       //update the UI
-      setActivityData(activityToDelete.filter(activity => activity.childId === childId));
+      setActivityData(activityToDelete);
       
       setDeletingTaskId(null);
       setDeleteTask(true);

@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import FullScreenLoader from "@/app/components/loader";
 import FullScreenError from "@/app/components/error";
+import DeleteBanner from "@/app/components/deleteBanner";
 
 export default function ChildrenList() {
   const [childData, setChildData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deleteChild, setDeleteChild] = useState(false);
+  const [deleteChildId, setDeletingChildId] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -33,18 +34,19 @@ export default function ChildrenList() {
 
   const handleEditChild = (childId) => {
     const parsedChildId = parseInt(childId);
-    router.push(`/mainpage/child/view?childId=${parsedChildId}`);
+    router.push(`/mainpage/child/edit?childId=${parsedChildId}`);
   };
 
-  const handleDeleteChild = () => {
-    const updated = childData.filter((child) => child.id !== id);
-    localStorage.setItem("childrenData", JSON.stringify(updated));
-    setChildData(updated);
+  const handleDeleteChild = (childId) => {
+    setDeletingChildId(childId);
+    const dataChild = JSON.parse(localStorage.getItem("childrenData") || "[]");
+    const childToDelete = dataChild.filter((child) => child.id !== childId);
+    
+    localStorage.setItem("childrenData", JSON.stringify(childToDelete));
+    setChildData(childToDelete);
 
-    setDeleteChild(false);
-    setTimeout(() => {
-      router.push("/mainpage/listChildren");
-    }, 5000); // Redirect after 5 seconds
+    setDeletingChildId(null);
+    setDeleteChild(true);
   };
 
    if (error) return <FullScreenError message={error} />; // Show error message if there's an error
@@ -53,7 +55,7 @@ export default function ChildrenList() {
 
   return (
     <main className="min-h-screen bg-[#FFF9CA] p-6 dark:bg-gray-900 transition-colors duration-300">
-      {deleteTask && (
+      {deleteChild && (
         <DeleteBanner
           message="Activity deleted successfully!"
           onClose={() => setSuccess(false)}
@@ -85,13 +87,17 @@ export default function ChildrenList() {
                 <button 
                   onClick={() => handleEditChild(child.id)}
                   className="px-3 py-1 rounded-md bg-[#FFB4B4] text-white hover:bg-[#FFB4B4]/80">
-                  View
+                  Edit
                 </button>
                 <button
+                  type="button"
                   onClick={() => handleDeleteChild(child.id)}
-                  className="px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-600/80"
+                  className={`px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-600/80
+                    ${deleteChildId === child.id ? "opacity-50 cursor-not-allowed" : ""}
+                    `}
+                    disabled={deleteChildId === child.id}
                 >
-                  Delete
+                  {deleteChildId === child.id ? "Deleting..." : "Delete"}
                 </button>
               </div>
             </div>

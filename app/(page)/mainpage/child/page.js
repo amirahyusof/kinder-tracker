@@ -46,7 +46,7 @@ export default function CreateChildProfile() {
     setIsSubmitting(true);
 
     // Validate inputs
-    if (!childData.name || !childData.age || !childData.color) {
+    if (!childData.name || !childData.age || !childData.bgcolor) {
       setError('Please fill out all required fields and select a background color');
       setIsSubmitting(false);
       return;
@@ -183,14 +183,18 @@ export default function CreateChildProfile() {
                   type="submit" 
                   className={`
                     btn btn-md border-pink-400 border-2 bg-[#FFB4B4] hover:border-[#FFDEB4] hover:bg-[#FFB4B4]/80 text-white
-                    ${isSubmitting ? '...': 'Adding'}
+                    ${isSubmitting ? 'bg-pink-400': ''}
+                    disabled:bg-[#FFE0E0] 
+                    disabled:border-[#FFB4B4] 
+                    disabled:text-gray-400 
+                    disabled:cursor-not-allowed
                     `}
                   disabled = {isSubmitting || isMaxReached}
                 >
                   { isSubmitting ? 'Adding...' : 'Add Child'}
                 </button>
 
-                <button type="button" className='btn btn-md btn-neutral text-white'>
+                <button type="button" className='btn btn-md bg-gray-500 text-white'>
                   <Link href={"/mainpage"}>
                     Cancel
                   </Link>
