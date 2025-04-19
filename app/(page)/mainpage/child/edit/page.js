@@ -1,13 +1,13 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   useSearchParams, 
   useRouter 
 } from 'next/navigation';
 import FullScreenError from '@/app/components/error';
+import SuccessBanner from '@/app/components/successBanner';
 
 const colorOptions = [
   '#FFB4B4', '#FFD1B4', '#FFE0B4', '#D4FFB4', '#B4FFF9', 
@@ -30,12 +30,11 @@ export default function EditChildProfile() {
   const [updateChild, setUpdateChild] = useState({
     name: "",
     age: "",
-    color: "",
+    bgcolor: "",
   });
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
-
 
 
   useEffect(() => {
@@ -54,7 +53,7 @@ export default function EditChildProfile() {
     fetchChildren();
   }, [childId]);
 
-  const handleAddChildProfile = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
     setError('');
     setIsSubmitting(true);
@@ -69,7 +68,11 @@ export default function EditChildProfile() {
             ...child,
             name: updateChild.name,
             age: updateChild.age,
-            color: updateChild.color,
+            avatar: {
+              ...child.avatar,
+              initials: getInitialsName(updateChild.name),
+              bgcolor: updateChild.bgcolor, 
+            },
           }
         : child
         );
@@ -103,7 +106,7 @@ export default function EditChildProfile() {
         </div>
 
         <div className="mt-4 w-full bg-white shrink-0 rounded-2xl shadow-2xl p-6">
-          <form onSubmit={handleAddChildProfile}>
+          <form onSubmit={handleUpdate}>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Name</span>
@@ -112,7 +115,7 @@ export default function EditChildProfile() {
                 type="text"
                 placeholder="Name"
                 value={updateChild.name}
-                onChange={(e) => setChildData({...updateChild, name:e.target.value})}
+                onChange={(e) => setUpdateChild({...updateChild, name:e.target.value})}
                 className="input input-bordered input-md bg-white w-full max-w-md"
                 required
               />
@@ -126,7 +129,7 @@ export default function EditChildProfile() {
                 type="number"
                 placeholder="Age"
                 value={updateChild.age}
-                onChange={(e) => setChildData({...updateChild, age:e.target.value})}
+                onChange={(e) => setUpdateChild({...updateChild, age:e.target.value})}
                 className="input input-bordered input-md bg-white w-full max-w-md"
                 required
                 min="0"
@@ -142,25 +145,25 @@ export default function EditChildProfile() {
                 {colorOptions.map((color) => (
                   <div  
                     key={color}
-                    className={`cursor-pointer w-12 h-12 rounded-full border-4 ${
-                      updateChild.color === color
+                    className={`cursor-pointer w-12 h-12 rounded-full border-4 transition-all duration-200 ${
+                      updateChild.bgcolor === color
                         ? 'border-pink-400 scale-110' 
                         : 'border-transparent'
                     }`}
                     style={{ backgroundColor: color }}
-                    onClick={() => setChildData({...updateChild, color})}
+                    onClick={() => setUpdateChild({...updateChild, bgcolor: color})}
                   >
                   </div>
                 ))}
               </div>
             </div>
 
-            {childData.name && (
+            {updateChild.name && (
               <div className='mt-4'>
                 <label>Avatar Preview</label>
                 <div
                   className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl shadow"
-                  style={{ backgroundColor: updateChild.color }}        
+                  style={{ backgroundColor: updateChild.bgcolor }}        
                 >
                   {getInitialsName(updateChild.name)}
                 </div>
@@ -172,11 +175,11 @@ export default function EditChildProfile() {
                 type="submit" 
                 className={`
                   btn btn-md border-pink-400 border-2 bg-[#FFB4B4] hover:border-[#FFDEB4] hover:bg-[#FFB4B4]/80 text-white
-                  ${isSubmitting ? 'Save': '....'}
+                  ${isSubmitting ? 'Saving...': '....'}
                   `}
-                disabled = {isSubmitting || isMaxReached}
+                disabled = {isSubmitting}
               >
-                { isSubmitting ? 'Save' : '....'}
+                { isSubmitting ? 'Saving...' : 'Save'}
               </button>
 
               <button type="button" className='btn btn-md btn-neutral text-white'>

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import FullScreenError from '@/app/components/error';
+import SuccessBanner from '@/app/components/successBanner';
 
 const colorOptions = [
   '#FFB4B4', '#FFD1B4', '#FFE0B4', '#D4FFB4', '#B4FFF9', 
@@ -24,7 +25,7 @@ export default function CreateChildProfile() {
   const [childData, setChildData] = useState({
     name: "", 
     age: "", 
-    color: colorOptions[0],
+    bgcolor: colorOptions[0],
     
   });
   const [error, setError] = useState('');
@@ -68,7 +69,7 @@ export default function CreateChildProfile() {
       avatar: {
         type: "initials",
         initials: getInitialsName(childData.name),
-        bgcolor: childData.color,
+        bgcolor: childData.bgcolor,
       }
     };
 
@@ -153,12 +154,12 @@ export default function CreateChildProfile() {
                     <div  
                       key={color}
                       className={`cursor-pointer w-12 h-12 rounded-full border-4 ${
-                        childData.color === color
+                        childData.bgcolor === color
                           ? 'border-pink-400 scale-110' 
                           : 'border-transparent'
                       }`}
                       style={{ backgroundColor: color }}
-                      onClick={() => setChildData({...childData, color})}
+                      onClick={() => setChildData({...childData, bgcolor: color})}
                     >
                     </div>
                   ))}
@@ -170,7 +171,7 @@ export default function CreateChildProfile() {
                   <label>Avatar Preview</label>
                   <div
                     className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl shadow"
-                    style={{ backgroundColor: childData.color }}        
+                    style={{ backgroundColor: childData.bgcolor }}        
                   >
                     {getInitialsName(childData.name)}
                   </div>
