@@ -2,6 +2,7 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import NotFoundAnimation from "@/public/lottie/notfound-animation";
 
 const Player = dynamic(
@@ -21,9 +22,9 @@ export default function NotFound() {
         />
       </div>
       <h2 className="text-2xl font-bold mt-4 ">Page Not Found</h2>
-      <p className="mt-2 text-center">The page you're looking for doesn't exist</p>
+      <p className="mt-2 text-center">The page you&apos;re looking for doesn&apos;t exist</p>
       <button className="mt-4 px-4 py-2 bg-[#FFB4B4] text-white rounded hover:bg-[#FF9A9A] transition-colors duration-300">
-        <a href="/" className="text-center">Go Back Home</a> 
+        <Link href="/" className="text-center">Go Back Home</Link> 
       </button>
     </div>
   );

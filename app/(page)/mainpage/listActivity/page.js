@@ -43,7 +43,7 @@ export default function ChildrenActivities() {
       setError('Failed to fetch child activities. Please try again later.');
       setLoading(false);
     }
-  }, []);
+  }, [childId]);
 
   if (error) return <FullScreenError message={error} /> ;
   
@@ -65,7 +65,7 @@ export default function ChildrenActivities() {
             <p className="text-gray-500">No tasks yet</p>
             <p className="text-sm text-gray-400">
               There are no list activity for children.
-              Please create activity on the child’s profile by clicking child's avatar on Home Page.
+              Please create activity on the child&apos;s profile by clicking child&apos;s avatar on Home Page.
             </p>
           </div>
           ) : (

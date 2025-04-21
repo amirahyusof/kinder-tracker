@@ -1,0 +1,34 @@
+{
+  "name": "Child Activity App",
+  "short_name": "ChildApp",
+  "id": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF9CA",
+  "theme_color": "#FF9494",
+  "screenshots": [
+    {
+      "src": "/screenshots/preview.png",
+      "type": "image/png",
+      "sizes": "540x720",
+      "form_factor": "wide"
+    }, 
+    {
+      "src": "/screenshots/preview.png",
+      "type": "image/png",
+      "sizes": "540x720"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

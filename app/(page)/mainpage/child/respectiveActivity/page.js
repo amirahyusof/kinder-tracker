@@ -98,7 +98,7 @@ export default function ActivityRespectiveChild() {
           <div className="mt-8 text-left ml-10">
             <p className="text-gray-500">No tasks yet</p>
             <p className="text-sm text-gray-400">
-              Click "+ Task" to create your child's first task
+              Click &apos;+ &apos; to create your child&apos;s first task
             </p>
           </div>
           ) : (
