@@ -6,8 +6,8 @@ import MainImage from "@/public/asset/front-page.jpeg";
 export default function Page() {
   return (
     <main className="min-h-screen flex items-center justify-center px-4 w-full bg-[#FFF9CA]">
-      <div className="w-full rounded-3xl bg-white shadow-lg overflow-hidden">
-        <div className="w-full relative">
+      <div className="w-full rounded-3xl overflow-hidden">
+        <div className="w-full relative flex items-center justify-center">
           <Image
             src={MainImage}
             sizes="fill"
@@ -18,7 +18,7 @@ export default function Page() {
           />
         </div>
 
-        <div className="px-6 py-8 text-center rounded-t-3xl -mt-14 relative z-10 bg-[#FFF9CA]/70">
+        <div className="px-6 py-8 text-center rounded-3xl -mt-20 relative z-10 bg-[#FFF9CA]/70">
           <h1 className="text-2xl font-bold mb-2 text-[#FF9494]">Child Activity Tracker</h1>
           <p className="text-sm text-[#FFB4B4] mb-4">Let’s get started! Track and motivate your child’s daily progress.</p>
 
