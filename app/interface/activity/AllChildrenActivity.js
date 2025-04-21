@@ -85,7 +85,7 @@ export default function ListActivity({ activityData, setActivityData, childData}
                 {/* Display due date of activity */}
                 <div className="text-gray-600 text-sm">
                   <span className='font-medium'> Due Date:</span>{" "}
-                  {data.dueDate ? new Date(data.dueDate).toLocaleDateString() : "No due date"}
+                  {data.dueDate ? new Date(data.dueDate).toLocaleDateString("en-GB") : "No due date"}
                 </div>
 
                 {/* Display status activity */}

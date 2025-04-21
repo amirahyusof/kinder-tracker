@@ -121,7 +121,7 @@ export default function ParentJournalPage() {
                 </p>
 
                 <p className="text-xs text-gray-400 mb-2">
-                  Created: {new Date(entry.createdAt).toLocaleString()}
+                  Created: {new Date(entry.createdAt).toLocaleString('en-GB')}
                 </p>
 
                 {editingId === entry.id ? (

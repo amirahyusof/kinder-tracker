@@ -75,7 +75,7 @@ export default function ListActivity({ activityData, setActivityData, childId}) 
               <p className="text-gray-600 text-sm">Description: {activity.description}</p>
               <div className="text-gray-600 text-sm">
                 <span className='font-medium'> Due Date:</span>{" "}
-                {activity.dueDate ? new Date(activity.dueDate).toLocaleDateString() : "No due date"}
+                {activity.dueDate ? new Date(activity.dueDate).toLocaleDateString("en-GB") : "No due date"}
               </div>
 
               <div className='card-actions flex items-center justify-end space-x-2'>
