@@ -124,7 +124,7 @@ export default function CreateChildProfile() {
                   placeholder="Name"
                   value={childData.name}
                   onChange={(e) => setChildData({...childData, name:e.target.value})}
-                  className="input input-bordered input-md bg-white w-full max-w-md"
+                  className="input input-bordered input-md bg-white w-full md:max-w-md lg:w-full"
                   required
                 />
               </div>
@@ -138,7 +138,7 @@ export default function CreateChildProfile() {
                   placeholder="Age"
                   value={childData.age}
                   onChange={(e) => setChildData({...childData, age:e.target.value})}
-                  className="input input-bordered input-md bg-white w-full max-w-md"
+                  className="input input-bordered input-md bg-white w-full md:max-w-md lg:w-full"
                   required
                   min="0"
                   max="18"
