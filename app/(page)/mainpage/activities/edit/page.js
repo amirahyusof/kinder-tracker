@@ -15,7 +15,6 @@ import {
 import SuccessBanner from '@/app/components/successBanner';
 import FullScreenLoader from '@/app/components/loader';
 import FullScreenError from '@/app/components/error';
-import { loadStaticPaths } from 'next/dist/server/dev/static-paths-worker';
 
 
 export default function EditActivity() {
