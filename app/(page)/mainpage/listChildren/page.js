@@ -15,14 +15,19 @@ export default function ChildrenList() {
   const router = useRouter();
 
   useEffect(() => {
+    const start = Date.now();
     try {
-      const timer = setTimeout(() => {
+      const loadData = () => {
         const data = JSON.parse(localStorage.getItem("childrenData") || "[]");
         console.log("Loaded Children Data:", data);
         setChildData(data);
-        setLoading(false);
-      }, 5000); // Simulate a 5 second loading time
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
+        
+        const duration = Date.now() - start;
+        const remaining = Math.max(2000 - duration, 0); // Ensure non-negative
+        setTimeout(() => setLoading(false), remaining);
+      }
+
+      loadData(); // Load data immediately
 
     } catch(err) {
       console.error("Error loading children data:", err);
@@ -59,7 +64,7 @@ export default function ChildrenList() {
 
    if (error) return <FullScreenError message={error} />; // Show error message if there's an error
 
-   if (loading) return <FullScreenLoader />; // Show loader while loading data
+   if (loading) return <FullScreenLoader duration={2000} />; // Show loader while loading data
 
   return (
     <main className="min-h-screen bg-[#FFF9CA] p-6 dark:bg-gray-900 transition-colors duration-300">

@@ -15,6 +15,7 @@ import {
 import SuccessBanner from '@/app/components/successBanner';
 import FullScreenLoader from '@/app/components/loader';
 import FullScreenError from '@/app/components/error';
+import { loadStaticPaths } from 'next/dist/server/dev/static-paths-worker';
 
 
 export default function EditActivity() {
@@ -43,8 +44,9 @@ export default function EditActivity() {
 
   // Fetch activity from localStorage
   useEffect(() => {
+    const start = Date.now();
     try {
-      const timer = setTimeout(() => {
+      const loadData = () => {
 
         const stored = localStorage.getItem('activityData');
         const activityList = stored ? JSON.parse(stored) : [];
@@ -60,9 +62,12 @@ export default function EditActivity() {
           setError("Activity not found.");
         }
   
-        setLoading(false);
-      }, 5000); // Simulate a 5 second loading time
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
+        const duration = Date.now() - start;
+        const remaining = Math.max(2000 - duration, 0); // Ensure non-negative
+        setTimeout(() => setLoading(false), remaining);
+      }
+        
+       loadData(); // Load data immediately
       
       } catch (err) {
         console.error('Error fetching activity:', err);
@@ -135,7 +140,7 @@ export default function EditActivity() {
     router.push("/mainpage/listActivity");
   };
 
-  if (loading) return <FullScreenLoader />;
+  if (loading) return <FullScreenLoader duration={2000} />;
   if (error) return <FullScreenError message={error} />;
 
   return (

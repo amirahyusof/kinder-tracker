@@ -33,7 +33,7 @@ export default function Homepage(){
       const duration = Date.now() - start;
       const remaining = Math.max(2000 - duration, 0); // Ensure non-negative
       setTimeout(() => setLoading(false), remaining);
-    }
+    };
 
     loadData(); // Load data immediately
 

@@ -16,8 +16,9 @@ export default function ChildrenActivities() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const start = Date.now();
     try {
-      const timer = setTimeout(() => {
+      const loadData = () => {
         //parse child Id as number
         const parsedChildId = parseInt(childId);
   
@@ -34,9 +35,10 @@ export default function ChildrenActivities() {
         console.log("childId from URL:", childId);
         console.log("Parsed childId:", parsedChildId);
   
-        setLoading(false);
-      }, 5000); // Simulate a 5 second loading time
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
+        const duration = Date.now() - start;
+        const remaining = Math.max(2000 - duration, 0); // Ensure non-negative
+        setTimeout(() => setLoading(false), remaining);
+      }
 
     } catch (err) {
       console.error('Error fetching child activities:', err);
@@ -47,7 +49,7 @@ export default function ChildrenActivities() {
 
   if (error) return <FullScreenError message={error} /> ;
   
-  if (loading) return <FullScreenLoader /> ;
+  if (loading) return <FullScreenLoader duration={2000} /> ;
   
   return (
     <section className='p-6 min-h-screen bg-[#FFF9CA] dark:bg-gray-900 transition-colors duration-300'>

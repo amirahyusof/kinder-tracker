@@ -17,9 +17,9 @@ export default function ActivityRespectiveChild() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if(!childId) return;
-
+    if(!childId) return;
+    const start = Date.now();
+    const loadData = () => {
     try {
       //parse child Id as number
       const parsedChildId = parseInt(childId);
@@ -38,22 +38,22 @@ export default function ActivityRespectiveChild() {
       
       console.log("childId from URL:", childId);
       console.log("Parsed childId:", parsedChildId);
-
-
-      setLoading(false);
     } catch(err) {
       setError("Failed to load data");
       setLoading(false);
     }
-    
-    }, 5000);
-    return () => clearTimeout(timer); // Cleanup the timer on unmount
-  
+
+    const duration = Date.now() - start;
+    const remaining = Math.max(2000 - duration, 0); // Ensure non-negative
+    setTimeout(() => setLoading(false), remaining);
+
+    };
+    loadData(); // Load data immediately
   }, [childId]);
 
   if (error) return <FullScreenError message={error} />; // Show error message if there's an error
 
-  if (loading) return <FullScreenLoader />; // Show loader while loading data
+  if (loading) return <FullScreenLoader duration={2000} />; // Show loader while loading data
   
 
   return (
