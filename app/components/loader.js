@@ -3,20 +3,23 @@ import { useEffect, useState } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import loadingAnimation from "@/public/lottie/love-animation"; // adjust if needed
 
-export default function FullScreenLoader() {
+export default function FullScreenLoader({duration = 2000}) {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
-    let interval = setInterval(() => {
-      setPercent((prev) => {
-        if (prev < 100) return prev + 1;
-        clearInterval(interval);
-        return 100;
-      });
-    }, 50); // adjust speed if needed
+    const steps = 100;
+    const intervalDuration = duration / steps; // Calculate interval duration based on total duration 
+    
+    let currentStep = 0;
+    const interval = setInterval(() => {
+      currentStep++;
+      setPercent(currentStep);
+      if (currentStep >= steps) clearInterval(interval);
+      
+    }, [intervalDuration]);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [duration]);
 
   return (
     <div className="inset-0 p-6 min-h-screen bg-[#FFF9CA] z-[9999] flex flex-col items-center justify-center text-[#FF9494]">

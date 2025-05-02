@@ -13,7 +13,8 @@ export default function Homepage(){
   const [showReminder, setShowReminder] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const start = Date.now();
+    const loadData = () => {
       //get child profile from local storage
       const data = JSON.parse(localStorage.getItem('childrenData') || '[]');
       console.log("Loaded Children Data:", data); // Debugging
@@ -29,13 +30,16 @@ export default function Homepage(){
       const isReminderOn = JSON.parse(localStorage.getItem("dailyReminder") ||'false');
       setShowReminder(isReminderOn);
 
-      setLoading(false);
-    }, 5000); // Simulate a 5 second loading time
+      const duration = Date.now() - start;
+      const remaining = Math.max(2000 - duration, 0); // Ensure non-negative
+      setTimeout(() => setLoading(false), remaining);
+    }
 
-    return () => clearTimeout(timer); // Cleanup the timer on unmount
+    loadData(); // Load data immediately
+
   }, []);
 
-  if (loading) return <FullScreenLoader />; // Show loader while loading data
+  if (loading) return <FullScreenLoader duration={2000} />; // Show loader while loading data
 
   return (
     <section className= "bg-[#FFF9CA] md:mx-10 dark:bg-gray-900 transition-colors duration-300" >
