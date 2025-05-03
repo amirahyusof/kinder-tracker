@@ -1,5 +1,5 @@
 {
-  "name": "parent-tracker",
+  "name": "child-activity-tracker",
   "version": "0.1.0",
   "private": true,
   "type": "module",
