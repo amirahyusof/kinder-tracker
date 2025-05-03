@@ -96,7 +96,7 @@ export default function CreateChildProfile() {
       )}
       <div className="flex flex-col">
         <div className="mt-2">
-          <h1 className="text-xl md:text-2xl font-bold">Add Child Profile</h1>
+          <h1 className="text-xl md:text-2xl font-bold lg:mx-auto lg:text-center">Add Child Profile</h1>
         </div>
 
         {isMaxReached ? (
@@ -111,7 +111,7 @@ export default function CreateChildProfile() {
             </button>
           </div>
           ) : (
-          <div className="mt-4 w-full bg-white shrink-0 rounded-2xl shadow-2xl p-6">
+          <div className="mt-4 max-w-screen-lg bg-white shrink-0 rounded-2xl shadow-2xl p-6 lg:mx-auto">
             <form onSubmit={handleAddChildProfile}>
               {error && <div className="text-red-500 mb-4">{error}</div>}
 
@@ -124,7 +124,7 @@ export default function CreateChildProfile() {
                   placeholder="Name"
                   value={childData.name}
                   onChange={(e) => setChildData({...childData, name:e.target.value})}
-                  className="input input-bordered input-md bg-white w-full md:max-w-md lg:w-full"
+                  className="input input-bordered input-md bg-white w-full"
                   required
                 />
               </div>
@@ -138,7 +138,7 @@ export default function CreateChildProfile() {
                   placeholder="Age"
                   value={childData.age}
                   onChange={(e) => setChildData({...childData, age:e.target.value})}
-                  className="input input-bordered input-md bg-white w-full md:max-w-md lg:w-full"
+                  className="input input-bordered input-md bg-white w-full"
                   required
                   min="0"
                   max="18"
