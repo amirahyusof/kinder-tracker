@@ -49,11 +49,25 @@ export default function ChildrenList() {
 
   const handleDeleteChild = (childId) => {
     setDeletingChildId(childId);
+    
+
+    //remove child from local storage
     const dataChild = JSON.parse(localStorage.getItem("childrenData") || "[]");
     const childToDelete = dataChild.filter((child) => child.id !== childId);
-    
     localStorage.setItem("childrenData", JSON.stringify(childToDelete));
     setChildData(childToDelete);
+
+    //remove associated activity from local storage
+    const activities = JSON.parse(localStorage.getItem("activityData") || "[]");
+    console.log("Before deletion - activities:", activities);
+    console.log("Deleting activities for childId:", childId);
+    console.log("Deleting activities for childId (as string):", childId.toString());
+
+    const activityToDelete = activities.filter((activity) => {
+      return String(activity.childId) !== String(childId);
+    });
+    console.log("After deletion - activities:", activityToDelete);
+    localStorage.setItem("activityData", JSON.stringify(activityToDelete));
 
     setDeletingChildId(null);
     setDeleteChild(true);
