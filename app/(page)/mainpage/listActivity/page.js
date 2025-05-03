@@ -39,6 +39,7 @@ export default function ChildrenActivities() {
         const remaining = Math.max(2000 - duration, 0); // Ensure non-negative
         setTimeout(() => setLoading(false), remaining);
       }
+      loadData(); // Load data immediately
 
     } catch (err) {
       console.error('Error fetching child activities:', err);
