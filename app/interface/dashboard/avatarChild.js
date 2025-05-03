@@ -23,9 +23,11 @@ export default function AvatarChild({childData}) {
         </div>
 
         {/* Render Child Avatars */}
-        {(!childData || childData.length > 3) ? (
-          <p className='text-gray-500 mt-4'>No child profiles found.</p>
-        ) : (
+        { childData && Array.isArray(childData) && childData.length === 0 ? (
+          <div className='flex items-center ml-4'>
+            <p className='text-gray-500'>No child profiles found.</p>
+          </div>
+          ) : (
           childData.map((child) => (
             <div key={child.id} className='avatar flex flex-col cursor-pointer '>
               {/* Avatar with Link to respective activity */}
@@ -41,7 +43,9 @@ export default function AvatarChild({childData}) {
               <p className='text-sm text-center mt-2 text-gray-400'>{child.name || "Unknown"}</p>
             </div>
           ))
+          
         )}
+          
       </div>
     </section>
   )
