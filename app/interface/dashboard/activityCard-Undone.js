@@ -28,7 +28,7 @@ export default function ActivityCard({ activityData, childData}){
       <h1 className="text-xl font-bold mb-2">Activities</h1>
       {/* Conditional rendering for activities */}
       {!activityData || activityData.length === 0 ? (
-        <div className="text-gray-500">No undone activities found. Please click child profile to add child's activities</div>
+        <div className="text-gray-500">No undone activities found. Please click child profile to add child&apos;s activities</div>
       ) : (
         <div className="text-gray-500">You have {activityData.length} undone activities</div>
       )}
