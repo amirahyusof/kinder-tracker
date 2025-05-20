@@ -1,68 +1,52 @@
 "use client"
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import NavBar from "@/app/interface/navbar";
-import React, { useState } from "react";
+import React from "react";
 import UpdateBanner from "@/app/components/updateVersionBanner";
-import { X } from "lucide-react";
+import ExitBanner from "@/app/components/exitBanner"; 
+import { X, Home } from "lucide-react";
+import { useExitHandler } from "@/app/hook/deviceHooks"; 
 
 export default function Layout({ children }) {
-  const [isPWA, setIsPWA] = useState(false);
-
-  useEffect(() => {
-    // Check if running as PWA
-    const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
-    setIsPWA(isStandalone);
-    
-    if (isStandalone) {
-      // Add a dummy state to history to ensure we can handle back navigation
-      window.history.pushState({ page: "main" }, "", window.location.href);
-      
-      const handlePopState = (event) => {
-        // Prevent the default back behavior
-        event.preventDefault();
-        
-        // Show confirmation dialog
-        const confirmExit = window.confirm("Do you want to exit the app?");
-        
-        if (confirmExit) {
-          // Try multiple approaches to exit
-          window.location.href = "about:blank";
-          // Fallback
-          window.close();
-        } else {
-          // User decided not to exit, restore our state
-          window.history.pushState({ page: "main" }, "", window.location.href);
-        }
-      };
-      
-      window.addEventListener("popstate", handlePopState);
-      
-      return () => {
-        window.removeEventListener("popstate", handlePopState);
-      };
-    }
-  }, []);
-
-  // Function to handle explicit exit button press
-  const handleExitApp = () => {
-    if (window.confirm("Do you want to exit the app?")) {
-      window.location.href = "about:blank";
-      // Fallback
-      window.close();
-    }
-  };
+  const router = useRouter();
+  const { 
+    showExitBanner, 
+    handleExitClick, 
+    handleExitConfirm, 
+    handleExitCancel, 
+    isPWA, 
+    isMobile 
+  } = useExitHandler(router);
 
   return (
     <div className="w-full top-0 min-h-screen p-4 bg-[#FFF9CA] dark:bg-gray-900 transition-colors duration-300">
+      {/* Exit Banner - Shows when back button is pressed or exit button is clicked */}
+      {showExitBanner && (
+        <ExitBanner 
+          onExit={handleExitConfirm} 
+          onCancel={handleExitCancel} 
+        />
+      )}
+      
+      {/* Exit/Home Button - Only shows in PWA mode */}
       {isPWA && (
         <button 
-          onClick={handleExitApp}
-          className="fixed top-4 right-4 z-50 bg-red-500 text-white p-2 rounded-full"
-          aria-label="Exit Application"
+          onClick={handleExitClick}
+          className="fixed top-4 right-4 z-50 p-2 rounded-full flex items-center justify-center shadow-md transition-all duration-200 hover:scale-105"
+          style={{
+            backgroundColor: isMobile ? "rgba(255, 80, 80, 0.9)" : "rgba(80, 130, 255, 0.9)",
+            backdropFilter: "blur(5px)",
+          }}
+          aria-label={isMobile ? "Exit Application" : "Return to Homepage"}
         >
-          <X size={20} />
+          {isMobile ? (
+            <X size={20} className="text-white" />
+          ) : (
+            <Home size={20} className="text-white" />
+          )}
         </button>
       )}
+      
       <main className="min-h-screen">
         <UpdateBanner />
         {children}
@@ -71,4 +55,3 @@ export default function Layout({ children }) {
     </div>
   );
 }
-
