@@ -1,6 +1,6 @@
 {
-  "name": "Child Activity App",
-  "short_name": "ChildApp",
+  "name": "Kinder Track",
+  "short_name": "KinderTrack",
   "id": "/",
   "start_url": "/",
   "display": "standalone",
