@@ -32,7 +32,7 @@ export default function Layout({ children }) {
       {isPWA && (
         <button 
           onClick={handleExitClick}
-          className="fixed top-4 right-4 z-50 p-2 rounded-full flex items-center justify-center shadow-md transition-all duration-200 hover:scale-105"
+          className="fixed top-4 right-4 z-50 p-2 rounded-full flex items-center bg-[#FFB4B4] justify-center shadow-md transition-all duration-200 hover:scale-105"
           style={{
             backgroundColor: isMobile ? "rgba(255, 80, 80, 0.9)" : "rgba(80, 130, 255, 0.9)",
             backdropFilter: "blur(5px)",
@@ -42,7 +42,7 @@ export default function Layout({ children }) {
           {isMobile ? (
             <X size={20} className="text-white" />
           ) : (
-            <Home size={20} className="text-white bg-[#FFB4B4]" />
+            <Home size={20} className="text-white" />
           )}
         </button>
       )}
