@@ -1,13 +1,13 @@
-import React from "react";
+import React, {useState, useEffect, useRef} from "react";
 
 // Custom hook for detecting device type and PWA status
 export function useDeviceDetection() {
-  const [isPWA, setIsPWA] = React.useState(false);
-  const [isMobile, setIsMobile] = React.useState(false);
-  const [isAndroid, setIsAndroid] = React.useState(false);
-  const [isIOS, setIsIOS] = React.useState(false);
+  const [isPWA, setIsPWA] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Check if running as PWA
     const checkPWA = () => {
       const isStandalone = window.matchMedia("(display-mode: standalone)").matches || 
@@ -63,33 +63,63 @@ export function useDeviceDetection() {
 // Hook for handling back button and exit behavior with custom banner
 export function useExitHandler(router) {
   const { isPWA, isMobile, isAndroid } = useDeviceDetection();
-  const [showExitBanner, setShowExitBanner] = React.useState(false);
+  const [showExitBanner, setShowExitBanner] = useState(false);
+  const [backButtonCount, setBackButtonCount] = useState(0);
+  const backButtonTimerRef = useRef(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isPWA) return;
 
-    // Add a history entry to catch back button presses
-    window.history.pushState({ page: "main" }, "", window.location.href);
-    
-    const handlePopState = (event) => {
-      // Only intercept on mobile and especially Android
-      if (isMobile) {
+    // Handle Android back button specially
+    if (isAndroid) {
+      let historyLength = window.history.length;
+      
+      // Add history entry to handle back button
+      window.history.pushState({ page: "main" }, "", window.location.href);
+      
+      const handlePopState = (event) => {
+        // Show exit banner on first back press
+        if (backButtonCount === 0) {
+          event.preventDefault();
+          setShowExitBanner(true);
+          setBackButtonCount(1);
+          
+          // Reset back button count after 3 seconds
+          backButtonTimerRef.current = setTimeout(() => {
+            setBackButtonCount(0);
+          }, 3000);
+          
+          // Push state to prevent immediate navigation
+          window.history.pushState({ page: "exit-dialog" }, "", window.location.href);
+        } 
+      };
+      
+      window.addEventListener("popstate", handlePopState);
+      
+      return () => {
+        window.removeEventListener("popstate", handlePopState);
+        if (backButtonTimerRef.current) {
+          clearTimeout(backButtonTimerRef.current);
+        }
+      };
+    } 
+    // Non-Android mobile devices
+    else if (isMobile) {
+      window.history.pushState({ page: "main" }, "", window.location.href);
+      
+      const handlePopState = (event) => {
         event.preventDefault();
-        
-        // Show custom exit banner instead of confirm dialog
         setShowExitBanner(true);
-        
-        // Push a new state to prevent immediate navigation
         window.history.pushState({ page: "exit-dialog" }, "", window.location.href);
-      }
-    };
-    
-    window.addEventListener("popstate", handlePopState);
-    
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, [isPWA, isMobile, isAndroid, router]);
+      };
+      
+      window.addEventListener("popstate", handlePopState);
+      
+      return () => {
+        window.removeEventListener("popstate", handlePopState);
+      };
+    }
+  }, [isPWA, isMobile, isAndroid, backButtonCount]);
 
   // Function to handle manual exit button click
   const handleExitClick = () => {
@@ -104,11 +134,22 @@ export function useExitHandler(router) {
   // Function to execute on exit confirmation
   const handleExitConfirm = () => {
     if (isMobile && isPWA) {
-      // Try multiple exit methods for mobile
-      window.location.href = "about:blank";
-      setTimeout(() => {
+      // For Android, simply let the back button do its natural thing
+      if (isAndroid) {
+        // This actually exits the app on Android by letting the system handle the back action
+        window.history.go(-2);
+      } 
+      // For iOS, we try to go back to the homescreen
+      else if (isIOS) {
+        window.location.replace("/");
+        setTimeout(() => {
+          window.close();
+        }, 100);
+      }
+      // For other mobile browsers
+      else {
         window.close();
-      }, 100);
+      }
     } else {
       // For desktop, go to home page
       router.push("/");
@@ -118,6 +159,7 @@ export function useExitHandler(router) {
   // Function to cancel exit
   const handleExitCancel = () => {
     setShowExitBanner(false);
+    setBackButtonCount(0);
     // Push another state to maintain history stack
     window.history.pushState({ page: "main" }, "", window.location.href);
   };
