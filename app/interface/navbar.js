@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Settings, Candy, Sticker } from 'lucide-react';
+import { ScrollText, Settings, Candy, Sticker, Scroll } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -12,7 +12,7 @@ export default function NavBar() {
 
 
   const navItems = [
-    { href: "/mainpage", icon: Home, label: 'Home' },
+    { href: "/mainpage", icon: ScrollText, label: 'Main' },
     { href: "/mainpage/listActivity", icon: Sticker, label: 'Activity' },
     { href: "/mainpage/listChildren", icon: Candy, label: 'Children' },
     { href: "/mainpage/more", icon: Settings, label: 'More' },
