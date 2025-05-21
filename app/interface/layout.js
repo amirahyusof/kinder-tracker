@@ -32,9 +32,9 @@ export default function Layout({ children }) {
       {isPWA && (
         <button 
           onClick={handleExitClick}
-          className="fixed top-4 right-4 z-50 p-2 rounded-full flex items-center bg-[#FFB4B4] justify-center shadow-md transition-all duration-200 hover:scale-105"
+          className="fixed top-4 right-4 z-50 p-2 h-6 w-6 rounded-2xl flex items-center bg-[#FFB4B4] justify-center shadow-md transition-all duration-200 hover:scale-105"
           style={{
-            backgroundColor: isMobile ? "rgba(255, 80, 80, 0.9)" : "rgba(80, 130, 255, 0.9)",
+            backgroundColor: isMobile ? "rgba(255, 80, 80, 0.9)" : "rgba(255, 180, 180, 1)",
             backdropFilter: "blur(5px)",
           }}
           aria-label={isMobile ? "Exit Application" : "Return to Homepage"}
