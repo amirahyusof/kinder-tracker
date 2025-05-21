@@ -42,7 +42,7 @@ export default function Layout({ children }) {
           {isMobile ? (
             <X size={20} className="text-white" />
           ) : (
-            <Home size={20} className="text-white" />
+            <Home size={20} className="text-white bg-[#FFB4B4]" />
           )}
         </button>
       )}
