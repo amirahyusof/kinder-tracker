@@ -19,8 +19,8 @@ export default function Page() {
         </div>
 
         <div className="px-6 py-8 text-center rounded-3xl -mt-10 relative z-10 bg-[#FFF9CA]/70">
-          <h1 className="text-2xl font-bold mb-2 text-[#FF9494]">Kinder Track</h1>
-          <p className="text-sm text-[#FFB4B4] mb-4">Let’s get started! Track and motivate your child’s daily progress.</p>
+          <h1 className="text-2xl font-extrabold mb-2 text-[#FF9494]">Kinder Track</h1>
+          <p className="text-sm text-[#FFB4B4] mb-4 font-bold">Let’s get started! Track and motivate your child’s daily progress.</p>
 
           <Link href="/mainpage">
             <button className="w-full py-3 rounded-full border-white  bg-[#FF9494] hover:bg-[#FF9494]/80 text-white text-lg font-semibold transition-all">
