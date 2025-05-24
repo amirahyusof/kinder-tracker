@@ -161,7 +161,7 @@ export function useExitHandler(router) {
     setShowExitBanner(false);
     setBackButtonCount(0);
     // Push another state to maintain history stack
-    window.history.pushState({ page: "main" }, "", window.location.href);
+    window.history.replaceState({ page: "main" }, "", window.location.href);
   };
 
   return { 
