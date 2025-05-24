@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { useDeviceDetection } from "./deviceHooks"; // assuming this is separated
+import { useDeviceDetection } from "./deviceHooks";
 
 export function useExitHandler(router) {
   const { isPWA, isMobile, isAndroid, isIOS } = useDeviceDetection();
@@ -54,7 +54,7 @@ export function useExitHandler(router) {
 
     if (isMobile && isPWA && App) {
       if (isAndroid) {
-        App.exitApp();
+        router.push("/")
       } else {
         window.location.replace("/");
         setTimeout(() => window.close(), 100);

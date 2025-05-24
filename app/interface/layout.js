@@ -20,14 +20,6 @@ export default function Layout({ children }) {
 
   return (
     <div className="w-full top-0 min-h-screen p-4 bg-[#FFF9CA] dark:bg-gray-900 transition-colors duration-300">
-      {/* Exit Banner - Shows when back button is pressed or exit button is clicked */}
-      {showExitBanner && (
-        <ExitBanner 
-          onExit={handleExitConfirm} 
-          onCancel={handleExitCancel} 
-        />
-      )}
-      
       {/* Exit/Home Button - Only shows in PWA mode */}
       {isPWA && (
         <button 
@@ -40,7 +32,12 @@ export default function Layout({ children }) {
           aria-label={isMobile ? "Exit Application" : "Return to Homepage"}
         >
           {isMobile ? (
-            <X size={20} className="text-white" />
+            showExitBanner && (
+              <ExitBanner 
+                onExit={handleExitConfirm} 
+                onCancel={handleExitCancel} 
+              />
+            )
           ) : (
             <Home size={20} className="text-white" />
           )}
