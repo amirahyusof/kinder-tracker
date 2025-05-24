@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">kinder-track</string>
+    <string name="title_activity_main">kinder-track</string>
+    <string name="package_name">kinderapp.vercel.app</string>
+    <string name="custom_url_scheme">kinderapp.vercel.app</string>
+</resources>

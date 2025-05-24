@@ -5,7 +5,7 @@ import React from "react";
 import UpdateBanner from "@/app/components/updateVersionBanner";
 import ExitBanner from "@/app/components/exitBanner"; 
 import { X, Home } from "lucide-react";
-import { useExitHandler } from "@/app/hook/deviceHooks"; 
+import { useExitHandler } from "@/app/hook/exithandler"; 
 
 export default function Layout({ children }) {
   const router = useRouter();
