@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState, useContext} from 'react';
 import { ThemeContext } from '@/app/context/ThemeContext';
+import { CURRENT_APP_VERSION } from "@/lib/constants";
 
 export default function ParentToolsPage() {
   const {theme, toggleTheme} = useContext(ThemeContext);
@@ -154,8 +155,9 @@ export default function ParentToolsPage() {
           <h2 className="text-xl font-semibold text-[#FF9494] mb-2">About the App</h2>
           <p className="text-sm text-gray-700 dark:text-gray-300">
             This parenting web app helps you track your children’s daily activities, manage their profiles, and reflect on your journey.
-            <br/>Built with ❤️ using Next.js, TailwindCSS, and localStorage.
+            <br/>Built with ❤️ by Amrah Y. using Next.js, Tailwind CSS, Daisy UI and localStorage as database.
           </p>
+          <p>Version: <span className='text-gray-700 font-bold'>{CURRENT_APP_VERSION}</span></p>
         </section>
       </div>
     </main>
