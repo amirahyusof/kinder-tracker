@@ -1,9 +1,9 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Player } from "@lottiefiles/react-lottie-player";
 import sadAnimation from "@/public/lottie/sad-animation";
 
-export default function ExitBanner({ onExit, onCancel }) {
+export default function ExitBanner({ onExit, onCancel, message }) {
   const [isVisible, setIsVisible] = useState(true);
 
   // Handle exit confirmation
@@ -19,7 +19,7 @@ export default function ExitBanner({ onExit, onCancel }) {
   };
 
   // Auto-dismiss after 10 seconds
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
       onCancel();
@@ -39,7 +39,9 @@ export default function ExitBanner({ onExit, onCancel }) {
           src={sadAnimation}
           style={{ height: "300px", width: "300px" }}
         />
-        <h1 className="text-xl font-semibold">Do you want to exit the app?</h1>
+        <h1 className="text-xl font-semibold">
+          {message || "Do you want to exit the app?"}
+        </h1>
         <div className="flex justify-center gap-4 mt-4 mb-2">
           <button 
             onClick={handleExit}
