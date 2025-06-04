@@ -1,9 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import MainImage from "@/public/asset/front-page.png";
-import { useEffect, useState } from "react";
 import ExitBanner from "@/app/components/exitBanner";
 
 export default function Page() {
@@ -113,14 +113,6 @@ export default function Page() {
           </div>
         </div>
       </main>
-
-      {/* Exit Banner for back button */}
-      {showExitBanner && (
-        <ExitBanner 
-          onExit={handleExitConfirm}
-          onCancel={handleExitCancel}
-        />
-      )}
     </>
   );
 }
