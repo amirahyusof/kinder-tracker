@@ -1,8 +1,8 @@
 "use client"
 
+import React, { useState } from 'react';
 import { ScrollText, Settings, Candy, Sticker, X } from 'lucide-react';
 import Link from 'next/link';
-import React, { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import ExitBanner from '@/app/components/exitBanner';
 
