@@ -1,4 +1,4 @@
-# 🌟 Child Activity Tracker
+# 🌟 Kinder Track - Child Activity Tracker
 
 A simple, fun, and effective web app for tracking children's daily activities — built using **Next.js**, **TailwindCSS**, and localStorage for offline-first usage. Designed for parents or guardians to help motivate children with structured and visual progress.
 
@@ -55,9 +55,15 @@ npm run dev
 
 Open http://localhost:3000 in your browser.
 
+```
 ---
 
-🙌 Acknowledgments
+## Check the Web App:
+https://kindertrack.vercel.app/
+
+---
+
+## 🙌 Acknowledgments
 
 Inspired by parents who want to gently guide children with routines and activity-based learning.
-Made with ❤️ using Next.js & TailwindCSS.
+Made with ❤️ using Next.js & Tailwind CSS.
