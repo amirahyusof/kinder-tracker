@@ -29,7 +29,7 @@ A simple, fun, and effective web app for tracking children's daily activities �
 
 ## 🛠️ Tech Stack
 
-- [Next.js 14](https://nextjs.org/)
+- [Next.js 15](https://nextjs.org/)
 - [React 18](https://reactjs.org/)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Shadcn-UI](https://ui.shadcn.com/) (planned or partially used)
