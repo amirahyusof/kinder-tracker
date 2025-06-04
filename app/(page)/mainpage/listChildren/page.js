@@ -96,7 +96,7 @@ export default function ChildrenList() {
         ) : (
           childData.map((child) => (
             <div key={child.id} className="bg-white cursor-pointer rounded-2xl shadow-md p-4 flex flex-row items-center gap-3 transition hover:scale-105 duration-200">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center border-4 border-gray-400"
+              <div className="w-10 h-10 md:w-20 md:h-20 rounded-full flex items-center justify-center border-4 border-gray-400"
                 style={{ backgroundColor: child.avatar.bgcolor }}
                 onClick={() => handleViewActivity(child.id)} 
               >
